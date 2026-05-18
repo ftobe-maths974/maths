@@ -1,0 +1,12 @@
+import{F as c,H as v}from"./storage.Crrt8QXG.js";const u=document.querySelectorAll(".tab-btn[data-tab]"),y=document.querySelectorAll(".tab-panel");u.forEach(t=>{t.addEventListener("click",()=>{const n=t.dataset.tab;u.forEach(e=>e.classList.remove("active")),t.classList.add("active"),y.forEach(e=>e.classList.remove("active")),document.getElementById(`panel-${n}`)?.classList.add("active")})});function h(t){return t?new Date(t).toLocaleDateString("fr-FR",{day:"numeric",month:"short"}):""}function g(t,n=!0,e=null){const a=document.createElement("a");a.href=t.url,a.className="result-card";let o="";n&&(o=`<button class="card-remove" data-remove="${t.slug}" title="Retirer">×</button>`);const s=e&&t[e]?`<div style="font-size:0.8em; color:#64748b; margin-top:5px;">Vu le ${h(t[e])}</div>`:"";return a.innerHTML=`
+        ${o}
+        <div class="card-header">
+           ${t.id?`<span class="card-id">${t.id}</span>`:""}
+        </div>
+        <h3 class="card-title">${t.title}</h3>
+        <div class="card-tags">
+             ${t.niveau?`<span class="card-tag">${t.niveau}</span>`:""}
+             ${t.theme?`<span class="card-tag">${t.theme}</span>`:""}
+        </div>
+        ${s}
+      `,a}function i(){const t=c.getAll(),n=document.getElementById("favorisList"),e=document.getElementById("emptyFavoris"),a=document.getElementById("favorisCount"),o=document.getElementById("favorisTotal");if(a&&(a.textContent=t.length.toString()),o&&(o.textContent=t.length.toString()),n&&(n.innerHTML=""),t.length===0){e&&(e.style.display="block");return}e&&(e.style.display="none"),t.forEach(s=>{const r=g(s,!0,"addedAt");n&&n.appendChild(r);const l=r.querySelector("[data-remove]");l&&l.addEventListener("click",d=>{d.preventDefault(),d.stopPropagation(),c.remove(s.slug),i()})})}function p(){const t=v.getAll(),n=document.getElementById("historiqueList"),e=document.getElementById("emptyHistorique"),a=document.getElementById("historiqueCount"),o=document.getElementById("historiqueTotal");if(a&&(a.textContent=t.length.toString()),o&&(o.textContent=t.length.toString()),n&&(n.innerHTML=""),t.length===0){e&&(e.style.display="block");return}e&&(e.style.display="none"),t.forEach(s=>{const r=g(s,!1,"visitedAt");n&&n.appendChild(r)})}const m=document.getElementById("clearFavoris");m&&m.addEventListener("click",()=>{confirm("Tout supprimer ?")&&(c.clear(),i())});const f=document.getElementById("clearHistorique");f&&f.addEventListener("click",()=>{confirm("Tout effacer ?")&&(v.clear(),p())});i();p();

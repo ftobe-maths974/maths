@@ -1,0 +1,44 @@
+const x={control:"#FFAB19",variables:"#FF8C1A",looks:"#9966FF",sensing:"#5CB1D6",operators:"#59C059"};function B(s){if(/=\s*réponse\s*$/.test(s))return{type:"set_input",var:s.replace(/\s*=\s*réponse\s*$/,"").trim()};if(/^dire\s/.test(s))return{type:"dire",var:s.slice(5).trim()};const e=s.match(/^(\S+)\s*=\s*(\S+)\s*([+\-×*\/÷])\s*(\d+(?:[.,]\d+)?)$/);return e?{type:"op",var:e[1],src:e[2],op:e[3],val:parseFloat(e[4].replace(",","."))}:{type:"unknown",raw:s}}function M(s){const e=s.split(`
+`).filter(o=>o.trim()),n=[];let t=0;for(;t<e.length;){const o=e[t].trim(),p=o.match(/^répéter\s+(\d+)\s*:/);if(p){const r=parseInt(p[1]),h=[];for(t++;t<e.length&&/^\s{2}/.test(e[t]);)h.push(B(e[t++].trim()));n.push({type:"loop",count:r,body:h})}else n.push(B(o)),t++}return n}function L(s,e,n){if(s.type==="set_input"){e[s.var]=n;return}if(s.type==="op"){const t=e[s.src]??0,o=s.val,p=s.op;p==="+"?e[s.var]=t+o:p==="-"?e[s.var]=t-o:p==="×"||p==="*"?e[s.var]=t*o:(p==="÷"||p==="/")&&(e[s.var]=t/o);return}if(s.type==="loop")for(let t=0;t<s.count;t++)for(const o of s.body)L(o,e,n)}function S(s,e){const n={};for(const t of s)L(t,n,e);return n}function E(s,e){const n=M(s),t=S(n,e),o=n.find(p=>p.type==="dire")?.var;return o!==void 0?Math.round(t[o]):null}function P(s){const e=M(s);if(e.some(r=>r.type==="loop"))return null;const n={};let t=null;for(const r of e)if(r.type==="set_input")n[r.var]={a:1,b:0};else if(r.type==="op"){const h=n[r.src];if(!h)continue;const{a:m,b}=h,a=r.val;let l,c;if(r.op==="+")l=m,c=b+a;else if(r.op==="-")l=m,c=b-a;else if(r.op==="×"||r.op==="*")l=m*a,c=b*a;else if(r.op==="÷"||r.op==="/")l=m/a,c=b/a;else continue;n[r.var]={a:l,b:c}}else r.type==="dire"&&(t=r.var);if(!t||!n[t])return null;const{a:o,b:p}=n[t];return o===0?null:{litA:o,litB:p}}function T(s){const e=s.match(/[a-zA-Z]/)?.[0]||"x",n=t=>t.replace(/×/g,"*").replace(/÷/g,"/");try{const t=Function(`"use strict"; var ${e}=0; return (${n(s)});`)();return{a:Function(`"use strict"; var ${e}=1; return (${n(s)});`)()-t,b:t}}catch{return{a:1,b:0}}}class H extends HTMLElement{static get observedAttributes(){return["programme","input","height"]}connectedCallback(){this.render()}attributeChangedCallback(){this.isConnected&&this.render()}_opStr(e){return e==="*"||e==="×"?"×":e==="/"||e==="÷"?"÷":e==="-"?"−":"+"}_el(e,n,t){const o=document.createElement(e);return n&&(o.className=n),t!==void 0&&(o.innerHTML=t),o}_varPill(e){return`<span class="sp-vref">${e}</span>`}_numPill(e){return`<span class="sp-num">${e}</span>`}_renderInstr(e,n){if(e.type==="set_input"){const t=document.createDocumentFragment();return t.appendChild(this._el("div","sp-block sp-ask","Choisir un nombre")),t.appendChild(this._el("div","sp-block sp-set",`mettre ${this._varPill(e.var)} à <span class="sp-reply">réponse</span>`)),t}if(e.type==="op"){const t=this._el("div","sp-block sp-op"),o='<span class="sp-expr">'+this._varPill(e.src)+`<span class="sp-opc">${this._opStr(e.op)}</span>`+this._numPill(e.val)+"</span>";return t.innerHTML=`mettre ${this._varPill(e.var)} à ${o}`,t}if(e.type==="loop"){const t=this._el("div","sp-loop"),o=this._el("div","sp-loop-top");o.innerHTML=`répéter ${this._numPill(e.count)} fois`,t.appendChild(o);const p=this._el("div","sp-loop-mid"),r=this._el("div","sp-loop-body");for(const h of e.body)r.appendChild(this._renderInstr(h,n));return p.appendChild(this._el("div","sp-loop-bar")),p.appendChild(r),t.appendChild(p),t.appendChild(this._el("div","sp-loop-bot")),t}if(e.type==="dire"){const t=this._el("div","sp-block sp-dire"),o=n[e.var],p=o!==void 0?"sp-vref sp-dire-v sp-tip":"sp-vref sp-dire-v",r=o!==void 0?` data-tip="${Number.isInteger(o)?o:Math.round(o*1e3)/1e3}"`:"";return t.innerHTML=`dire <span class="${p}"${r}>${e.var}</span>`,t}return this._el("div","sp-block sp-unknown",e.raw||"?")}_ensureStyles(){if(document.getElementById("math974-scratch-css"))return;const e=document.createElement("style");e.id="math974-scratch-css",e.textContent=`
+math974-programme-scratch{display:block}
+.sp-prog{display:inline-flex;flex-direction:column;gap:3px;
+  font:bold 13px/1.5 'Segoe UI',Arial,sans-serif;padding:6px;transform-origin:top left}
+.sp-block{display:flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:5px;color:#fff;white-space:nowrap}
+
+.sp-ask  {background:${x.sensing};color:#fff}
+.sp-set  {background:${x.variables}}
+.sp-op   {background:${x.variables}}
+.sp-dire {background:${x.looks}}
+.sp-unknown{background:#94a3b8}
+
+.sp-vref{background:#CC6600;border-radius:10px;padding:1px 8px;color:#fff}
+.sp-reply{background:${x.sensing};border-radius:10px;padding:1px 9px;color:#fff}
+
+.sp-expr{display:inline-flex;align-items:center;gap:4px;
+  background:${x.operators};border-radius:10px;padding:2px 8px}
+.sp-opc{font-weight:bold;color:#fff}
+.sp-num{background:#fff;color:#1e293b;border-radius:10px;padding:1px 7px}
+
+.sp-dire-v{background:#CC6600;border-radius:10px;padding:1px 8px;color:#fff}
+
+.sp-loop{display:flex;flex-direction:column}
+.sp-loop-top{display:flex;align-items:center;gap:6px;padding:6px 12px;
+  border-radius:5px 5px 0 0;background:${x.control};color:#1c1c1c;
+  white-space:nowrap;font:bold 13px/1.5 'Segoe UI',Arial,sans-serif}
+.sp-loop-top .sp-num{color:#1e293b}
+.sp-loop-mid{display:flex;background:${x.control};padding:3px 6px 3px 0}
+.sp-loop-bar{width:20px;flex-shrink:0}
+.sp-loop-body{flex:1;display:flex;flex-direction:column;gap:3px;padding:3px;min-height:12px}
+.sp-loop-bot{height:12px;background:${x.control};border-radius:0 0 5px 5px}
+
+.sp-tip{position:relative;cursor:help}
+.sp-tip::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 5px);
+  left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;
+  border-radius:4px;padding:2px 8px;font-size:11px;white-space:nowrap;
+  pointer-events:none;opacity:0;transition:opacity .15s;z-index:20}
+.sp-tip:hover::after{opacity:1}
+    `.trim(),document.head.appendChild(e)}_scaleToFit(){const e=parseInt(this.getAttribute("height")||"0");if(!e)return;const n=this.querySelector(".sp-prog");if(!n)return;n.style.transform="";const t=n.offsetHeight;if(!t||t<=e)return;const o=e/t;n.style.transform=`scale(${o})`,this.style.height=e+"px",this.style.width=n.offsetWidth*o+"px",this.style.overflow="hidden"}render(){this.innerHTML="",this._ensureStyles();const e=this.getAttribute("programme")||"",n=this.getAttribute("input"),t=parseFloat(n??"0"),o=M(e),p=n!==null?S(o,t):{},r=this._el("div","sp-prog");for(const h of o)r.appendChild(this._renderInstr(h,p));this.appendChild(r),requestAnimationFrame(()=>this._scaleToFit())}}customElements.define("math974-programme-scratch",H);const z="east";function N(s,e){const n={ops:null,inputRange:null,opsRange:[1,3],loop:null,iterRange:[2,5],valRange:[1,10],literal:!1,...e||{}},t=(a,l)=>a+Math.floor(Math.random()*(l-a+1)),o=a=>a[Math.floor(Math.random()*a.length)],p=s.literal,r=!!n.literal,h=(a,l,c,k)=>{const g=E(a,l);let d=`Qu'affiche le programme si on entre la valeur **${l}** ? [?${g}]`;return c!==void 0&&(d+=`
+
+Et si on entre la valeur <span class="vis-mathvar">x</span> ? <small style="color:#6b7280">(ex : 3x + 2)</small> [?litx]`),d};if(!n.ops){const a=s.programme||"",l=n.inputRange?t(n.inputRange[0],n.inputRange[1]):s.input!==void 0?s.input:t(2,20);let c,k;if(typeof p=="string"){const d=T(p);c=d.a,k=d.b}else if(p===!0&&a){const d=P(a);d&&(c=d.litA,k=d.litB)}const g={...s,input:l,programme:a};return g.content=h(a,l,c),c!==void 0&&(g.a=c,g.b=k),g}const m="résultat",b=n.inputRange||[2,20];for(let a=0;a<40;a++){const l=r?!1:n.loop===null?Math.random()<.5:!!n.loop,c=l?t(n.iterRange[0],n.iterRange[1]):1,k=t(n.opsRange[0],n.opsRange[1]),g=t(b[0],b[1]),d=[];let u=g,y=!0;for(let i=0;i<k&&y;i++){const f=o(n.ops);let v;if(f==="÷"){const C=[];for(let A=Math.max(2,n.valRange[0]);A<=n.valRange[1];A++)u%A===0&&C.push(A);if(!C.length){y=!1;break}v=o(C),u/=v}else if(f==="-"){const C=Math.min(u-1,n.valRange[1]);if(C<n.valRange[0]){y=!1;break}v=t(n.valRange[0],C),u-=v}else if(f==="×"){if(v=t(Math.max(2,n.valRange[0]),Math.min(n.valRange[1],4)),u*=v,u>9999){y=!1;break}}else v=t(n.valRange[0],n.valRange[1]),u+=v;d.push({op:f,val:v})}if(!y||!d.length)continue;u=g;for(let i=0;i<c&&y;i++)for(const f of d)if(u=f.op==="+"?u+f.val:f.op==="-"?u-f.val:f.op==="×"?u*f.val:u/f.val,u<1||u>9999||!Number.isInteger(u)){y=!1;break}if(!y)continue;const F=({op:i,val:f})=>`${m} = ${m} ${i} ${f}`,R=[`${m} = réponse`];l?(R.push(`répéter ${c}:`),d.forEach(i=>R.push("  "+F(i)))):d.forEach(i=>R.push(F(i))),R.push(`dire ${m}`);const I=R.join(`
+`),w={...s,input:g,programme:I};let $,_;if(r){$=1,_=0;for(const i of d)i.op==="+"?_+=i.val:i.op==="-"?_-=i.val:i.op==="×"||i.op==="*"?($*=i.val,_*=i.val):(i.op==="÷"||i.op==="/")&&($/=i.val,_/=i.val);if($===0)continue;w.a=$,w.b=_}return w.content=h(I,g,$),w}return{...s,input:t(b[0],b[1])}}export{z as defaultPosition,N as randomize};
