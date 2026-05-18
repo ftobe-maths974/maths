@@ -1,4 +1,4 @@
-import{T as M}from"./rapido-engine.qfYSVwbG.js";import"./editor.CJZspgfY.js";const q=`
+import{T as M}from"./rapido-engine.CKK7wkD9.js";import"./editor.CJZspgfY.js";const q=`
 math974-schema-construire-mult {
   display: block; font-family: inherit;
   user-select: none; -webkit-user-select: none;
