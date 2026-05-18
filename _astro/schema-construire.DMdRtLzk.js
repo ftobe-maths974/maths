@@ -1,4 +1,4 @@
-import{T as F}from"./rapido-engine.DIfntEUb.js";import"./editor.CJZspgfY.js";const B=["#fcd496","#86efb5","#a5d8ff","#f6c6dd","#d9c8f2","#bfe3c4"],P=`
+import{T as F}from"./rapido-engine.qfYSVwbG.js";import"./editor.CJZspgfY.js";const B=["#fcd496","#86efb5","#a5d8ff","#f6c6dd","#d9c8f2","#bfe3c4"],P=`
 math974-schema-construire {
   display: block; font-family: inherit;
   user-select: none; -webkit-user-select: none;
