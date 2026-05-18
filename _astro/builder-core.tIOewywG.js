@@ -1,4 +1,4 @@
-import{T as u}from"./rapido-engine.CKK7wkD9.js";import"./editor.CJZspgfY.js";const b=`
+import{T as u}from"./rapido-engine.CuqWfHjN.js";import"./editor.CJZspgfY.js";const b=`
 .schb { display:block; font-family:inherit; user-select:none; -webkit-user-select:none; }
 .schb-panel {
   background:#ffffff; border:1.5px solid #e2e8f0; border-radius:12px;
