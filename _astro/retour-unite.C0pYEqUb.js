@@ -1,4 +1,4 @@
-import{ensureSharedStyles as A}from"./vis-input.C4J8oy6G.js";import{fmt as w}from"./utils.MftNdmoG.js";const R="south";function L(f){return f.replace(/\s/g,"").replace(",",".")}function u(f,e){const t=parseFloat(L(f));return!isNaN(t)&&Math.abs(t-e)<.01}const y=`
+import{ensureSharedStyles as A}from"./vis-input.0hz6aJN5.js";import{fmt as w}from"./utils.MftNdmoG.js";const R="south";function L(f){return f.replace(/\s/g,"").replace(",",".")}function u(f,e){const t=parseFloat(L(f));return!isNaN(t)&&Math.abs(t-e)<.01}const y=`
 math974-retour-unite {
   display: block;
   font-family: inherit;

@@ -1,4 +1,4 @@
-import{markInput as C,clearInput as I,ensureSharedStyles as H}from"./vis-input.C4J8oy6G.js";const P="south",L="math974-soustraction-posee",T=["u","d","c","m","dm","cm","M"],D=["d","c","m"],f=1,V=`
+import{markInput as C,clearInput as I,ensureSharedStyles as H}from"./vis-input.0hz6aJN5.js";const P="south",L="math974-soustraction-posee",T=["u","d","c","m","dm","cm","M"],D=["d","c","m"],f=1,V=`
 math974-soustraction-posee { display: inline-block; padding: 4px 0; }
 .sp-title { font-size: 1.5rem; font-weight: 600; color: #334155; line-height: 1.5; margin-bottom: 6px; }
 .sp-table { border-collapse: separate; border-spacing: 3px 3px; font-family: inherit; }

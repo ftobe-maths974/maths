@@ -1,4 +1,4 @@
-import{markInput as I,clearInput as q,ensureSharedStyles as C}from"./vis-input.C4J8oy6G.js";const j="south",E="math974-addition-posee",z=["u","d","c","m","dm","cm","M"],V=["d","c","m"],m=1,L=`
+import{markInput as I,clearInput as q,ensureSharedStyles as C}from"./vis-input.0hz6aJN5.js";const j="south",E="math974-addition-posee",z=["u","d","c","m","dm","cm","M"],V=["d","c","m"],m=1,L=`
 math974-addition-posee { display: inline-block; padding: 4px 0; }
 .ap-title { font-size: 1.5rem; font-weight: 600; color: #334155; line-height: 1.5; margin-bottom: 6px; }
 .ap-table { border-collapse: separate; border-spacing: 3px 3px; font-family: inherit; }

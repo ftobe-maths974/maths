@@ -1,4 +1,4 @@
-import{markInput as M,clearInput as V,ensureSharedStyles as C}from"./vis-input.C4J8oy6G.js";const R="south",_="math974-division-posee",L=`
+import{markInput as M,clearInput as V,ensureSharedStyles as C}from"./vis-input.0hz6aJN5.js";const R="south",_="math974-division-posee",L=`
 math974-division-posee { display: inline-block; padding: 4px 0; }
 .dp-title { font-size: 1.5rem; font-weight: 600; color: #334155; line-height: 1.5; margin-bottom: 6px; }
 .dp-outer { display: flex; align-items: flex-start; gap: 0; }

@@ -1,4 +1,4 @@
-import{markInput as z,clearInput as q,ensureSharedStyles as C}from"./vis-input.C4J8oy6G.js";const V="south",A="math974-multiplication-posee",L=["u","d","c","m","dm","cm","M"],B=`
+import{markInput as z,clearInput as q,ensureSharedStyles as C}from"./vis-input.0hz6aJN5.js";const V="south",A="math974-multiplication-posee",L=["u","d","c","m","dm","cm","M"],B=`
 math974-multiplication-posee { display: inline-block; padding: 4px 0; }
 .mp-title { font-size: 1.5rem; font-weight: 600; color: #334155; line-height: 1.5; margin-bottom: 6px; }
 .mp-table { border-collapse: separate; border-spacing: 3px 3px; font-family: inherit; }
