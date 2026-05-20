@@ -1,126 +1,74 @@
-<!DOCTYPE html><html lang="fr" data-astro-cid-j7pv25f6> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Maths974 - Accueil</title><link rel="icon" type="image/svg+xml" href="/maths/favicon.svg"><link rel="stylesheet" href="/maths/_astro/_slug_.BM1MRcTJ.css">
+<!DOCTYPE html><html lang="fr" data-astro-cid-j7pv25f6> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Maths974 - Accueil</title><link rel="icon" type="image/svg+xml" href="/maths/favicon.svg"><link rel="stylesheet" href="/maths/_astro/_slug_.BPikInuZ.css">
 <style>body{margin:0;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);color:#1e293b;min-height:100vh;display:flex;flex-direction:column}.home-container{width:100%;max-width:1000px;margin:0 auto;padding:var(--space-8) var(--space-4);flex:1}.home-header{text-align:center;margin-bottom:var(--space-12)}.home-title{color:#0f172a;font-size:clamp(2.5rem,5vw,4rem);font-weight:var(--font-black);margin-bottom:var(--space-2);letter-spacing:-.02em}.home-logo{display:block;max-width:min(420px,80vw);width:100%;height:auto;margin:0 auto var(--space-4)}.home-subtitle{color:#64748b;font-size:var(--text-lg);max-width:600px;margin:0 auto}.menu-section{margin-bottom:var(--space-10)}.section-title{font-size:var(--text-2xl);font-weight:var(--font-bold);margin-bottom:var(--space-6);display:flex;align-items:center;gap:var(--space-3);padding-bottom:var(--space-2);border-bottom:2px solid rgba(0,0,0,.05)}.guide-color{color:var(--color-guide-primary)}.rapido-color{color:var(--color-rapido-primary)}.automaths-color{color:#dc2626}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-6)}.card{background:#fff;padding:var(--space-6);border-radius:var(--radius-xl);text-decoration:none;color:inherit;box-shadow:var(--shadow-sm);transition:all var(--transition-base);border:2px solid transparent;display:flex;flex-direction:column;height:100%}.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}.guide-card:hover{border-color:var(--color-guide-primary)}.rapido-card:hover{border-color:var(--color-rapido-primary)}.automaths-card:hover{border-color:#dc2626}.card h3{margin:0 0 var(--space-2) 0;font-size:var(--text-xl);font-weight:var(--font-bold);color:var(--color-gray-900)}.card p{margin:0;font-size:var(--text-base);color:var(--color-gray-500);line-height:1.5}.empty-msg{color:var(--color-gray-400);font-style:italic;padding:var(--space-4);background:#ffffff80;border-radius:var(--radius-lg)}.card-header-home[data-astro-cid-j7pv25f6]{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-2);gap:1rem}.card-header-home[data-astro-cid-j7pv25f6] h3[data-astro-cid-j7pv25f6]{margin:0;font-size:var(--text-xl);line-height:1.2}.badge[data-astro-cid-j7pv25f6]{font-size:.75rem;padding:.25rem .6rem;border-radius:99px;font-weight:700;text-transform:uppercase;white-space:nowrap;flex-shrink:0}.badge[data-astro-cid-j7pv25f6].guide{background-color:var(--color-guide-light);color:var(--color-guide-primary)}.badge[data-astro-cid-j7pv25f6].rapido{background-color:var(--color-rapido-light);color:var(--color-rapido-primary)}
-</style></head> <body data-astro-cid-j7pv25f6> <nav class="main-navbar no-print"> <div class="navbar-content"> <a href="/maths/" class="brand" aria-label="Accueil Maths974"> <img src="/maths/images/logo.svg" alt="Maths974" class="logo-icon"> </a> <div class="nav-actions"> <a href="/maths/recherche/" class="nav-link nav-link-primary mobile-icon-only" title="Recherche"> <span class="nav-icon">🔍</span> <span class="nav-text">Recherche</span> </a> <a href="/maths/recherche/favoris/" class="nav-link mobile-icon-only" title="Favoris"> <span class="nav-icon">⭐</span> <span class="nav-text">Favoris</span> </a> <a href="/maths/guide/" class="nav-link mobile-icon-only" title="Guides de Survie"> <span class="nav-icon">📚</span> <span class="nav-text">Guides</span> </a> <a href="/maths/rapidos/" class="nav-link mobile-icon-only" title="Rapidos"> <span class="nav-icon">⚡</span> <span class="nav-text">Rapidos</span> </a> <a href="/maths/automaths/" class="nav-link mobile-icon-only" title="Automaths"> <span class="nav-icon">🧮</span> <span class="nav-text">Automaths</span> </a>  <div class="settings-dropdown-wrapper"> <button id="settingsBtn" class="btn-icon" aria-label="Paramètres d'affichage" aria-expanded="false" title="Affichage">
-⚙️
-</button> <div id="settingsMenu" class="settings-menu hidden"> <div class="menu-header">Format d'affichage</div> <button class="menu-item active" data-mode="screen">
-🖥️ Écran Fluide
-</button> <button class="menu-item" data-mode="a4">
-📄 Format A4
-</button> <button class="menu-item" data-mode="a5">
-📑 Format A5
-</button> </div> </div> <button onclick="window.print()" class="btn-print mobile-hidden" aria-label="Imprimer cette page" title="Imprimer">
-🖨️
-</button> </div> </div> </nav> <script>
-  // Logique de gestion des modes d'affichage
+</style></head> <body data-astro-cid-j7pv25f6> <nav class="main-navbar no-print"> <div class="navbar-content"> <a href="/maths/" class="brand" aria-label="Accueil Maths974"> <img src="/maths/images/logo.svg" alt="Maths974" class="logo-icon"> </a> <nav class="navbar-breadcrumb" aria-label="Fil d'ariane"> <ol> <li><a href="/maths/">Accueil</a></li>   <li class="separator">/</li> <li class="current" aria-current="page">Accueil</li>  </ol> </nav> <div class="navbar-spacer"></div> <div class="hamburger-wrapper"> <button id="navHamburger" class="btn-icon hamburger-btn" aria-label="Menu de navigation" aria-expanded="false" title="Menu">
+☰
+</button> <div id="navMenu" class="nav-menu hidden"> <a href="/maths/" class="nav-menu-item"> <span class="nav-menu-icon">🏠</span> Accueil
+</a> <a href="/maths/recherche/" class="nav-menu-item"> <span class="nav-menu-icon">🔍</span> Recherche
+</a> <a href="/maths/recherche/favoris/" class="nav-menu-item"> <span class="nav-menu-icon">⭐</span> Favoris
+</a> <hr class="nav-menu-sep"> <a href="/maths/guide/" class="nav-menu-item"> <span class="nav-menu-icon">📚</span> Guides de Survie
+</a> <a href="/maths/rapidos/" class="nav-menu-item"> <span class="nav-menu-icon">⚡</span> Rapidos
+</a> <a href="/maths/automaths/" class="nav-menu-item"> <span class="nav-menu-icon">🧮</span> Automaths
+</a> <hr class="nav-menu-sep"> <div class="nav-menu-label">Format d'affichage</div> <button class="nav-menu-item menu-item-mode active" data-mode="screen" type="button"> <span class="nav-menu-icon">🖥️</span> Écran fluide
+</button> <button class="nav-menu-item menu-item-mode" data-mode="a4" type="button"> <span class="nav-menu-icon">📄</span> Format A4
+</button> <button class="nav-menu-item menu-item-mode" data-mode="a5" type="button"> <span class="nav-menu-icon">📑</span> Format A5
+</button> <hr class="nav-menu-sep"> <button class="nav-menu-item" type="button" onclick="window.print()"> <span class="nav-menu-icon">🖨️</span> Imprimer
+</button> </div> </div> </div> </nav> <script>
   (function() {
-    const body = document.body;
-    const btn = document.getElementById('settingsBtn');
-    const menu = document.getElementById('settingsMenu');
-    const options = document.querySelectorAll('.menu-item[data-mode]');
+    const body  = document.body;
+    const btn   = document.getElementById('navHamburger');
+    const menu  = document.getElementById('navMenu');
+    const modes = document.querySelectorAll('.menu-item-mode[data-mode]');
 
-    // Initialisation
+    // ── Mode d'affichage (persisté) ───────────────────────────────────────
     const savedMode = localStorage.getItem('maths974-display-mode') || 'screen';
     setMode(savedMode);
 
-    // --- Fonction mise à jour pour gérer @page ET les tailles de police ---
     function updatePrintPageSize(mode) {
       let styleEl = document.getElementById('dynamic-page-size');
       if (!styleEl) {
         styleEl = document.createElement('style');
         styleEl.id = 'dynamic-page-size';
-        styleEl.setAttribute('media', 'print'); // S'applique uniquement à l'impression
+        styleEl.setAttribute('media', 'print');
         document.head.appendChild(styleEl);
       }
-
       if (mode === 'a5') {
-        // --- RÉGLAGES POUR A5 ---
-        // Texte : 10pt | H1 : 12pt
-        styleEl.textContent = `
-          @page { 
-            size: A5 portrait; 
-            margin: 0.5cm; /* Marge légère pour A5 */
-          }
-          body { 
-            font-size: 10pt !important; 
-          }
-          h1, .etiquette-title { 
-            font-size: 12pt !important; 
-          }
-          /* Ajustement optionnel pour les autres titres pour garder la hiérarchie */
-          h2 { font-size: 11pt !important; }
-          p, li { line-height: 1.4 !important; }
-        `;
+        styleEl.textContent = `@page{size:A5 portrait;margin:.5cm}body{font-size:10pt!important}h1,.etiquette-title{font-size:12pt!important}h2{font-size:11pt!important}p,li{line-height:1.4!important}`;
       } else {
-        // --- RÉGLAGES POUR A4 (et défaut) ---
-        // Texte : 12pt | H1 : 14pt
-        styleEl.textContent = `
-          @page { 
-            size: A4 portrait; 
-            margin: 1cm; 
-          }
-          body { 
-            font-size: 12pt !important; 
-          }
-          h1, .etiquette-title { 
-            font-size: 14pt !important; 
-          }
-          h2 { font-size: 13pt !important; }
-        `;
-      }
-    }
-    // -------------------------------------------------------
-
-    // Ouvrir/Fermer le menu
-    if (btn) {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-        toggleMenu(!isExpanded);
-      });
-    }
-
-    // Fermer le menu si on clique ailleurs
-    document.addEventListener('click', (e) => {
-      if (menu && !menu.contains(e.target) && !btn.contains(e.target)) {
-        toggleMenu(false);
-      }
-    });
-
-    // Choix du mode
-    options.forEach(opt => {
-      opt.addEventListener('click', () => {
-        const mode = opt.dataset.mode;
-        setMode(mode);
-        toggleMenu(false);
-      });
-    });
-
-    function toggleMenu(show) {
-      if (!menu) return;
-      if (show) {
-        menu.classList.remove('hidden');
-        btn.setAttribute('aria-expanded', 'true');
-      } else {
-        menu.classList.add('hidden');
-        btn.setAttribute('aria-expanded', 'false');
+        styleEl.textContent = `@page{size:A4 portrait;margin:1cm}body{font-size:12pt!important}h1,.etiquette-title{font-size:14pt!important}h2{font-size:13pt!important}`;
       }
     }
 
     function setMode(mode) {
       body.setAttribute('data-layout-mode', mode);
       localStorage.setItem('maths974-display-mode', mode);
-
-      // On met à jour l'UI du menu
-      options.forEach(opt => {
-        if (opt.dataset.mode === mode) opt.classList.add('active');
-        else opt.classList.remove('active');
-      });
-
-      // On met à jour la règle @page pour l'imprimante
+      modes.forEach(opt => opt.classList.toggle('active', opt.dataset.mode === mode));
       updatePrintPageSize(mode);
     }
+
+    modes.forEach(opt => opt.addEventListener('click', () => {
+      setMode(opt.dataset.mode);
+      toggleMenu(false);
+    }));
+
+    // ── Menu hamburger ────────────────────────────────────────────────────
+    function toggleMenu(show) {
+      if (!menu) return;
+      if (show) { menu.classList.remove('hidden'); btn.setAttribute('aria-expanded', 'true'); }
+      else      { menu.classList.add('hidden');    btn.setAttribute('aria-expanded', 'false'); }
+    }
+
+    if (btn) {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        toggleMenu(btn.getAttribute('aria-expanded') !== 'true');
+      });
+    }
+    document.addEventListener('click', e => {
+      if (menu && !menu.contains(e.target) && !btn.contains(e.target)) toggleMenu(false);
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
   })();
-</script> <div class="home-container" data-astro-cid-j7pv25f6> <header class="home-header" data-astro-cid-j7pv25f6> <img src="/maths/images/logo.svg" alt="Maths974" class="home-logo" data-astro-cid-j7pv25f6> <p class="home-subtitle" data-astro-cid-j7pv25f6>Ressources, fiches de révision et exercices rapides pour le collège et le lycée.</p> </header> <div class="menu-section" data-astro-cid-j7pv25f6> <div class="section-title guide-color" data-astro-cid-j7pv25f6> <span data-astro-cid-j7pv25f6>📚</span> Guides de Survie
+</script> <div class="home-container" data-astro-cid-j7pv25f6> <header class="home-header" data-astro-cid-j7pv25f6> <img src="/maths/images/logo.svg" alt="Maths974" class="home-logo" data-astro-cid-j7pv25f6> <p class="home-subtitle" data-astro-cid-j7pv25f6>Ressources, fiches de révision et exercices rapides pour le collège.</p> </header> <div class="menu-section" data-astro-cid-j7pv25f6> <div class="section-title guide-color" data-astro-cid-j7pv25f6> <span data-astro-cid-j7pv25f6>📚</span> Guides de Survie
 </div> <div class="grid" data-astro-cid-j7pv25f6> <a href="/maths/guide/cycle3/" class="card guide-card" data-astro-cid-j7pv25f6> <div class="card-header-home" data-astro-cid-j7pv25f6> <h3 data-astro-cid-j7pv25f6>Cycle 3</h3> <span class="badge guide" data-astro-cid-j7pv25f6>Cycle 3</span> </div> <p data-astro-cid-j7pv25f6> 161 étiquettes GS — Fiches de révision du CM1 à la 6ème </p> </a> </div> </div> <div class="menu-section" data-astro-cid-j7pv25f6> <div class="section-title rapido-color" data-astro-cid-j7pv25f6> <span data-astro-cid-j7pv25f6>⚡</span> Rapidos
 </div> <div class="grid" data-astro-cid-j7pv25f6> <a href="/maths/rapidos/6e/" class="card rapido-card" data-astro-cid-j7pv25f6> <div class="card-header-home" data-astro-cid-j7pv25f6> <h3 data-astro-cid-j7pv25f6>Rapidos 6e</h3> <span class="badge rapido" data-astro-cid-j7pv25f6>6e</span> </div> <p data-astro-cid-j7pv25f6> 32 séances — exercices par niveau </p> </a> </div> </div> <div class="menu-section" data-astro-cid-j7pv25f6> <div class="section-title automaths-color" data-astro-cid-j7pv25f6> <span data-astro-cid-j7pv25f6>🧮</span> Automaths thématiques
 </div> <div class="grid" data-astro-cid-j7pv25f6> <a href="/maths/automaths/" class="card automaths-card" data-astro-cid-j7pv25f6> <div class="card-header-home" data-astro-cid-j7pv25f6> <h3 data-astro-cid-j7pv25f6>6<sup data-astro-cid-j7pv25f6>e</sup></h3> <span class="badge" data-astro-cid-j7pv25f6>Cycle 3</span> </div> <p data-astro-cid-j7pv25f6>66 automaths disponibles — liés au Guide de Survie</p> </a> <a href="/maths/automaths/3e-dnb/" class="card automaths-card" data-astro-cid-j7pv25f6> <div class="card-header-home" data-astro-cid-j7pv25f6> <h3 data-astro-cid-j7pv25f6>3<sup data-astro-cid-j7pv25f6>e</sup> DNB</h3> <span class="badge" data-astro-cid-j7pv25f6>Cycle 4</span> </div> <p data-astro-cid-j7pv25f6>41 automaths sélectionnés pour les révisions du brevet.</p> </a> </div> </div> </div> </body></html>
