@@ -1,4 +1,4 @@
-import{T as m}from"./fullscreen-viewer.C31tbZD-.js";import"./editor.CJZspgfY.js";const f=`
+import{T as m}from"./fullscreen-viewer.BIiqaoqM.js";import"./editor.CJZspgfY.js";const f=`
 .schb { display:block; font-family:inherit; user-select:none; -webkit-user-select:none; }
 .schb-panel {
   background:#ffffff; border:1.5px solid #e2e8f0; border-radius:12px;
