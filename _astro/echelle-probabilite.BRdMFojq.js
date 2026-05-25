@@ -1,4 +1,4 @@
-import{g as S}from"./fullscreen-viewer.mTVM_Ikm.js";import"./editor.CJZspgfY.js";const m=["impossible","peu-probable","demi","probable","certain"],k={impossible:{label:"Impossible",point:!0},"peu-probable":{label:`peu
+import{g as S}from"./fullscreen-viewer.gUroEaeM.js";import"./editor.CJZspgfY.js";const m=["impossible","peu-probable","demi","probable","certain"],k={impossible:{label:"Impossible",point:!0},"peu-probable":{label:`peu
 probable`,point:!1},demi:{label:`une chance
 sur deux`,point:!0},probable:{label:"probable",point:!1},certain:{label:"Certain",point:!0}},w=["A","B","C","D","E"],L=`
 math974-echelle-probabilite {
