@@ -1,4 +1,4 @@
-import{parseRange as _,evalExpr as x,fmt as b}from"./utils.MftNdmoG.js";import{d as C}from"./fullscreen-viewer.Ds0nEH8v.js";import"./editor.CJZspgfY.js";const P="north",H=!0,$=`
+import{parseRange as _,evalExpr as x,fmt as b}from"./utils.MftNdmoG.js";import{d as C}from"./fullscreen-viewer.CxgtdgG5.js";import"./editor.CJZspgfY.js";const P="north",H=!0,$=`
 math974-linearite-mult {
   display: block;
   position: relative;
