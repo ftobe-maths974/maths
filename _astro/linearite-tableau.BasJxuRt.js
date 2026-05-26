@@ -1,4 +1,4 @@
-import{parseRange as v,evalExpr as T,fmt as B}from"./utils.MftNdmoG.js";import{b as X}from"./fullscreen-viewer.D8E673vc.js";import"./editor.CJZspgfY.js";const I="north",Q=!0,P=`
+import{parseRange as v,evalExpr as T,fmt as B}from"./utils.MftNdmoG.js";import{b as X}from"./fullscreen-viewer.B5ILVOPC.js";import"./editor.CJZspgfY.js";const I="north",Q=!0,P=`
 math974-linearite-tableau {
   display: block;
   position: relative;
