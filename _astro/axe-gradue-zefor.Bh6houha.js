@@ -1,4 +1,4 @@
-import{r as u}from"./fullscreen-viewer.DQ9HOJNv.js";import{randomize as k}from"./axe-gradue.Do9BZBQ4.js";import"./editor.CJZspgfY.js";const v="content",y=!0,h=`
+import{r as u}from"./fullscreen-viewer.H5Sd9riY.js";import{randomize as k}from"./axe-gradue.BY-B8LiU.js";import"./editor.CJZspgfY.js";const v="content",y=!0,b=`
 math974-axe-gradue-zefor {
   display: block;
   width: 100%;
@@ -127,7 +127,7 @@ math974-axe-gradue-zefor {
   background: currentColor;
   margin: 2px 0;
 }
-`;let m=!1;function b(){if(m)return;m=!0;const f=document.createElement("style");f.textContent=h,document.head.appendChild(f)}class z extends HTMLElement{connectedCallback(){b(),this.hasAttribute("placeTarget")?this.dataset.placeMode="1":delete this.dataset.placeMode,this._render()}_render(){this.innerHTML="",this._mode=this.hasAttribute("placeTarget")?"placer":"lire";const e=document.createElement("math974-axe-gradue");for(const p of Array.from(this.attributes))p.name!=="data-place-mode"&&e.setAttribute(p.name,p.value);if(this._mode==="placer"){const p=parseFloat(this.getAttribute("max")||"1"),o=[];for(let c=0;c<=Math.floor(p+1e-9);c++)o.push(c);e.setAttribute("step","1"),e.setAttribute("visibleLabels",JSON.stringify(o))}this._inner=e,this.appendChild(e);const n=this._numFromAttr(),t=this._denFromAttr();if(n===null||t===null)return;const a=document.createElement("details");a.className="azf-help";const d=`<span class="axe-frac"><span class="axe-frac-num">${n}</span><span class="axe-frac-den">${t}</span></span>`,r=(p,o)=>`<span class="azf-frac-inline"><span class="azf-frac-inline-num"><input class="azf-step-inp" data-expected="${p}" type="text" inputmode="numeric" size="2" autocomplete="off" placeholder="?"></span><span class="azf-frac-inline-bar"></span><span class="azf-frac-inline-den"><input class="azf-step-inp" data-expected="${o}" type="text" inputmode="numeric" size="2" autocomplete="off" placeholder="?"></span></span>`,i=`
+`;let m=!1;function h(){if(m)return;m=!0;const f=document.createElement("style");f.textContent=b,document.head.appendChild(f)}class z extends HTMLElement{connectedCallback(){h(),this.hasAttribute("placeTarget")?this.dataset.placeMode="1":delete this.dataset.placeMode,this._render()}_render(){this.innerHTML="",this._mode=this.hasAttribute("placeTarget")?"placer":"lire";const e=document.createElement("math974-axe-gradue");for(const p of Array.from(this.attributes))p.name!=="data-place-mode"&&e.setAttribute(p.name,p.value);if(this._mode==="placer"){const p=parseFloat(this.getAttribute("max")||"1"),o=[];for(let c=0;c<=Math.floor(p+1e-9);c++)o.push(c);e.setAttribute("step","1"),e.setAttribute("visibleLabels",JSON.stringify(o))}else e.setAttribute("visibleLabels","[]"),e.setAttribute("labelFrequency","1");this._inner=e,this.appendChild(e);const n=this._numFromAttr(),t=this._denFromAttr();if(n===null||t===null)return;const a=document.createElement("details");a.className="azf-help";const d=`<span class="axe-frac"><span class="axe-frac-num">${n}</span><span class="axe-frac-den">${t}</span></span>`,r=(p,o)=>`<span class="azf-frac-inline"><span class="azf-frac-inline-num"><input class="azf-step-inp" data-expected="${p}" type="text" inputmode="numeric" size="2" autocomplete="off" placeholder="?"></span><span class="azf-frac-inline-bar"></span><span class="azf-frac-inline-den"><input class="azf-step-inp" data-expected="${o}" type="text" inputmode="numeric" size="2" autocomplete="off" placeholder="?"></span></span>`,i=`
       <div class="azf-step step-A azf-step--active" data-phase="identifier_denominateur">
         <span class="azf-step-label">A.</span>
         <span>Dans la fraction&nbsp;${d}, le dénominateur est&nbsp;</span>
@@ -139,7 +139,7 @@ math974-axe-gradue-zefor {
       </div>`,s=`
       <div class="azf-step step-A azf-step--active" data-phase="identifier_denominateur">
         <span class="azf-step-label">A.</span>
-        <span>Je partage l'unité (segment&nbsp;0→1) en&nbsp;</span>
+        <span>L'unité (segment&nbsp;0→1) est partagée en&nbsp;</span>
         <input class="azf-step-inp" data-expected="${t}" type="text" inputmode="numeric" size="2" autocomplete="off" placeholder="?">
         <span>&nbsp;parts.</span>
         <span class="azf-step-fb" aria-hidden="true"></span>
