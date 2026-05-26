@@ -1,5 +1,5 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["_astro/fullscreen-viewer.BFOIpYrg.js","_astro/editor.CJZspgfY.js"])))=>i.map(i=>d[i]);
-import{_ as g}from"./editor.CJZspgfY.js";import{r as z}from"./fullscreen-viewer.BFOIpYrg.js";import{randomize as C}from"./axe-gradue.85_Cdqy0.js";const w="content",$=!0,y=`
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["_astro/fullscreen-viewer.DVjCvtSS.js","_astro/editor.CJZspgfY.js"])))=>i.map(i=>d[i]);
+import{_ as x}from"./editor.CJZspgfY.js";import{r as z}from"./fullscreen-viewer.DVjCvtSS.js";import{randomize as C}from"./axe-gradue.CccFExff.js";const w="content",$=!0,y=`
 math974-axe-gradue-zefor {
   display: block;
   width: 100%;
@@ -173,23 +173,25 @@ math974-axe-gradue-zefor {
 }
 .azf-unite-click.seen::after { display: none; }
 
-/* Pop bubble du segment "0 ├──┤ 1" au clic. Position absolue au-dessus du
-   mot, auto-disparait après l'animation. */
+/* Pop bubble du segment "|———| 0   1" au clic. Position absolue au-dessus
+   du mot, auto-disparait après l'animation. Segment fait en HTML+CSS pur
+   (pas de SVG) — plus fiable pour le rendu cross-browser. */
 .azf-unite-pop {
   position: absolute;
   left: 50%;
   bottom: 100%;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
   background: white;
   border: 2px solid #f59e0b;
   border-radius: 10px;
-  padding: 6px 10px;
+  padding: 10px 14px 8px;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
   z-index: 100;
   pointer-events: none;
   white-space: nowrap;
   animation: azf-unite-pop-in 2.4s cubic-bezier(.34,1.56,.64,1) forwards;
   transform-origin: center bottom;
+  min-width: 120px;
 }
 .azf-unite-pop::after {
   content: '';
@@ -207,13 +209,42 @@ math974-axe-gradue-zefor {
   80%  { opacity: 1; transform: translateX(-50%) scale(1); }
   100% { opacity: 0; transform: translateX(-50%) scale(0.95) translateY(-6px); }
 }
-.azf-unite-pop svg { display: block; }
-`;let x=!1;function v(){if(x)return;x=!0;const m=document.createElement("style");m.textContent=y,document.head.appendChild(m)}class k extends HTMLElement{connectedCallback(){v(),this.hasAttribute("placeTarget")?this.dataset.placeMode="1":delete this.dataset.placeMode,this._render()}_render(){this.innerHTML="",this._mode=this.hasAttribute("placeTarget")?"placer":"lire";const e=document.createElement("math974-axe-gradue");for(const s of Array.from(this.attributes))s.name!=="data-place-mode"&&e.setAttribute(s.name,s.value);const o=parseFloat(this.getAttribute("max")||"1"),a=[];for(let s=0;s<=Math.floor(o+1e-9);s++)a.push(s);e.setAttribute("visibleLabels",JSON.stringify(a)),this._mode==="placer"&&e.setAttribute("step","1"),this._inner=e,this.appendChild(e);const t=this._numFromAttr(),n=this._denFromAttr();if(t===null||n===null)return;const l=document.createElement("details");l.className="azf-help";const i=`<span class="axe-frac"><span class="axe-frac-num">${t}</span><span class="axe-frac-den">${n}</span></span>`,c=(s,h)=>`<span class="azf-frac-inline"><span class="azf-frac-inline-num"><input class="azf-step-inp rapido-input" data-expected="${s}" data-solution="${s}" type="text" inputmode="numeric" size="2" autocomplete="off" placeholder="?"></span><span class="azf-frac-inline-bar"></span><span class="azf-frac-inline-den"><input class="azf-step-inp rapido-input" data-expected="${h}" data-solution="${h}" type="text" inputmode="numeric" size="2" autocomplete="off" placeholder="?"></span></span>`,p=`<span class="azf-unite-click" tabindex="0" role="button" aria-label="Voir le segment unité">l'unité</span>`,r=`<span class="azf-unite-click" tabindex="0" role="button" aria-label="Voir le segment unité">L'unité</span>`,d='<span class="azf-unite-click" tabindex="0" role="button" aria-label="Voir le segment unité">1 unité</span>',f=`
+/* Segment : tirets verticaux aux extrémités + ligne horizontale. */
+.azf-pop-seg {
+  display: flex;
+  align-items: center;
+  height: 16px;
+  width: 100%;
+}
+.azf-pop-tick {
+  width: 3px;
+  height: 14px;
+  background: #1e293b;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.azf-pop-line {
+  flex: 1;
+  height: 3px;
+  background: #1e293b;
+  border-radius: 2px;
+}
+.azf-pop-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 0.95em;
+  font-weight: 900;
+  color: #1e293b;
+  letter-spacing: -0.5px;
+}
+.azf-pop-labels > span { line-height: 1; }
+`;let g=!1;function v(){if(g)return;g=!0;const m=document.createElement("style");m.textContent=y,document.head.appendChild(m)}class k extends HTMLElement{connectedCallback(){v(),this.hasAttribute("placeTarget")?this.dataset.placeMode="1":delete this.dataset.placeMode,this._render()}_render(){this.innerHTML="",this._mode=this.hasAttribute("placeTarget")?"placer":"lire";const e=document.createElement("math974-axe-gradue");for(const s of Array.from(this.attributes))s.name!=="data-place-mode"&&e.setAttribute(s.name,s.value);const p=parseFloat(this.getAttribute("max")||"1"),a=[];for(let s=0;s<=Math.floor(p+1e-9);s++)a.push(s);e.setAttribute("visibleLabels",JSON.stringify(a)),this._mode==="placer"&&e.setAttribute("step","1"),this._inner=e,this.appendChild(e);const t=this._numFromAttr(),n=this._denFromAttr();if(t===null||n===null)return;const l=document.createElement("details");l.className="azf-help";const i=`<span class="axe-frac"><span class="axe-frac-num">${t}</span><span class="axe-frac-den">${n}</span></span>`,c=(s,h)=>`<span class="azf-frac-inline"><span class="azf-frac-inline-num"><input class="azf-step-inp rapido-input" data-expected="${s}" data-solution="${s}" type="text" inputmode="numeric" size="2" autocomplete="off" placeholder="?"></span><span class="azf-frac-inline-bar"></span><span class="azf-frac-inline-den"><input class="azf-step-inp rapido-input" data-expected="${h}" data-solution="${h}" type="text" inputmode="numeric" size="2" autocomplete="off" placeholder="?"></span></span>`,o=`<span class="azf-unite-click" tabindex="0" role="button" aria-label="Voir le segment unité">l'unité</span>`,r=`<span class="azf-unite-click" tabindex="0" role="button" aria-label="Voir le segment unité">L'unité</span>`,d='<span class="azf-unite-click" tabindex="0" role="button" aria-label="Voir le segment unité">1 unité</span>',f=`
       <div class="azf-step step-A azf-step--active" data-phase="identifier_denominateur">
         <span class="azf-step-label">A.</span>
         <span>Dans la fraction&nbsp;${i}, le dénominateur est&nbsp;</span>
         <input class="azf-step-inp rapido-input" data-expected="${n}" data-solution="${n}" type="text" inputmode="numeric" size="2" autocomplete="off" placeholder="?">
-        <span>&nbsp;donc je partage ${p} en&nbsp;</span>
+        <span>&nbsp;donc je partage ${o} en&nbsp;</span>
         <input class="azf-step-inp rapido-input" data-expected="${n}" data-solution="${n}" type="text" inputmode="numeric" size="2" autocomplete="off" placeholder="?">
         <span>&nbsp;parts.</span>
         <span class="azf-step-fb" aria-hidden="true"></span>
@@ -266,10 +297,12 @@ math974-axe-gradue-zefor {
           </div>
         </div>
       `}this.appendChild(l),this._panel=l,this._wireSteps(),this._wireUniteClicks()}_wireUniteClicks(){if(!this._panel)return;const e=`
-      <svg width="92" height="22" viewBox="0 0 92 22" aria-hidden="true">
-        <text x="2" y="17" font-size="14" font-weight="800" fill="#1e293b">0</text>
-        <line x1="16" y1="12" x2="76" y2="12" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="16" y1="5"  x2="16" y2="19" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="76" y1="5"  x2="76" y2="19" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
-        <text x="80" y="17" font-size="14" font-weight="800" fill="#1e293b">1</text>
-      </svg>`,o=a=>{a.querySelector(".azf-unite-pop")?.remove();const t=document.createElement("span");t.className="azf-unite-pop",t.innerHTML=e,a.appendChild(t),a.classList.add("seen"),setTimeout(()=>t.remove(),2400)};this._panel.querySelectorAll(".azf-unite-click").forEach(a=>{a.addEventListener("click",t=>{t.preventDefault(),t.stopPropagation(),o(a)}),a.addEventListener("keydown",t=>{(t.key==="Enter"||t.key===" ")&&(t.preventDefault(),o(a))})})}_revealGraduations(){const e=this._denFromAttr();if(!this._inner||!e||e<2)return;const o=1/e;this._inner.setAttribute("step",String(o)),typeof this._inner.render=="function"&&this._inner.render()}_pointLabel(){try{return JSON.parse(this.getAttribute("points")||"[]").find(a=>a.label==="?"||a.question)?.label||"A"}catch{return"A"}}_numFromAttr(){const e=this.getAttribute("num");return e!=null?parseInt(e,10):null}_denFromAttr(){const e=this.getAttribute("den");return e!=null?parseInt(e,10):null}_wireSteps(){const e=Array.from(this._panel.querySelectorAll(".azf-step"));e.map(t=>Array.from(t.querySelectorAll(".azf-step-inp"))).forEach((t,n)=>{if(!t.length)return;e[n].querySelector(".azf-step-fb");const l=()=>{let i=!0,c=!1;if(t.forEach(p=>{const r=parseInt(p.value,10),d=parseInt(p.dataset.expected,10),f=r===d,u=p.value!=="";u&&(c=!0),f||(i=!1),z(p,u?f?"correct":"incorrect":"neutral")}),i&&c){e[n].classList.add("azf-step--done"),e[n].classList.remove("azf-step--active"),n===0&&this._revealGraduations();let p=!1;for(let r=n+1;r<e.length;r++){if(e[r].classList.remove("azf-step--hidden"),e[r].classList.add("azf-step--active"),e[r].querySelector(".azf-step-inp")){p=!0;break}e[r].classList.add("azf-step--done"),e[r].classList.remove("azf-step--active")}if(!p)if(this._mode==="lire"){const d=this.closest(".q-card")?.querySelector(".sa-projected-text .axe-frac-input input.rapido-input");d&&d.focus()}else document.activeElement?.blur?.()}};t.forEach(i=>{i.addEventListener("blur",l),i.addEventListener("keydown",c=>{c.key==="Enter"?(c.preventDefault(),i.blur()):c.key==="Tab"&&l()}),i.addEventListener("input",()=>{z(i,"neutral")})})});const a=this.closest(".q-card");a&&g(()=>import("./fullscreen-viewer.BFOIpYrg.js").then(t=>t.n),__vite__mapDeps([0,1])).then(t=>t.wireCardInputs?.(a)).catch(()=>{})}getCurrentPhase(){if(this._panel?.open){const t=this._panel.querySelector(".azf-step--active");if(t?.dataset.phase)return t.dataset.phase;if(this._panel.querySelectorAll(".azf-step--done").length>0)return"placer_le_curseur"}const e=this._inner?._studentAnswer;if(e==null)return"reponse_directe";const o=parseFloat(this._inner?.getAttribute("placeTarget")??"NaN");return Math.abs(e-o)<.001?"done":"erreur_reponse_directe"}validate(){return this._inner?.validate?.()}toggleSolution(e){return this._inner?.toggleSolution?.(e)}}customElements.get("math974-axe-gradue-zefor")||customElements.define("math974-axe-gradue-zefor",k);export{$ as autoScale,w as defaultPosition,C as randomize};
+      <span class="azf-pop-seg" aria-hidden="true">
+        <span class="azf-pop-tick"></span>
+        <span class="azf-pop-line"></span>
+        <span class="azf-pop-tick"></span>
+      </span>
+      <span class="azf-pop-labels" aria-hidden="true">
+        <span>0</span>
+        <span>1</span>
+      </span>`,p=a=>{a.querySelector(".azf-unite-pop")?.remove();const t=document.createElement("span");t.className="azf-unite-pop",t.innerHTML=e,a.appendChild(t),a.classList.add("seen"),setTimeout(()=>t.remove(),2400)};this._panel.querySelectorAll(".azf-unite-click").forEach(a=>{a.addEventListener("click",t=>{t.preventDefault(),t.stopPropagation(),p(a)}),a.addEventListener("keydown",t=>{(t.key==="Enter"||t.key===" ")&&(t.preventDefault(),p(a))})})}_revealGraduations(){const e=this._denFromAttr();if(!this._inner||!e||e<2)return;const p=1/e;this._inner.setAttribute("step",String(p)),typeof this._inner.render=="function"&&this._inner.render()}_pointLabel(){try{return JSON.parse(this.getAttribute("points")||"[]").find(a=>a.label==="?"||a.question)?.label||"A"}catch{return"A"}}_numFromAttr(){const e=this.getAttribute("num");return e!=null?parseInt(e,10):null}_denFromAttr(){const e=this.getAttribute("den");return e!=null?parseInt(e,10):null}_wireSteps(){const e=Array.from(this._panel.querySelectorAll(".azf-step"));e.map(t=>Array.from(t.querySelectorAll(".azf-step-inp"))).forEach((t,n)=>{if(!t.length)return;e[n].querySelector(".azf-step-fb");const l=()=>{let i=!0,c=!1;if(t.forEach(o=>{const r=parseInt(o.value,10),d=parseInt(o.dataset.expected,10),f=r===d,u=o.value!=="";u&&(c=!0),f||(i=!1),z(o,u?f?"correct":"incorrect":"neutral")}),i&&c){e[n].classList.add("azf-step--done"),e[n].classList.remove("azf-step--active"),n===0&&this._revealGraduations();let o=!1;for(let r=n+1;r<e.length;r++){if(e[r].classList.remove("azf-step--hidden"),e[r].classList.add("azf-step--active"),e[r].querySelector(".azf-step-inp")){o=!0;break}e[r].classList.add("azf-step--done"),e[r].classList.remove("azf-step--active")}if(!o)if(this._mode==="lire"){const d=this.closest(".q-card")?.querySelector(".sa-projected-text .axe-frac-input input.rapido-input");d&&d.focus()}else document.activeElement?.blur?.()}};t.forEach(i=>{i.addEventListener("blur",l),i.addEventListener("keydown",c=>{c.key==="Enter"?(c.preventDefault(),i.blur()):c.key==="Tab"&&l()}),i.addEventListener("input",()=>{z(i,"neutral")})})});const a=this.closest(".q-card");a&&x(()=>import("./fullscreen-viewer.DVjCvtSS.js").then(t=>t.n),__vite__mapDeps([0,1])).then(t=>t.wireCardInputs?.(a)).catch(()=>{})}getCurrentPhase(){if(this._panel?.open){const t=this._panel.querySelector(".azf-step--active");if(t?.dataset.phase)return t.dataset.phase;if(this._panel.querySelectorAll(".azf-step--done").length>0)return"placer_le_curseur"}const e=this._inner?._studentAnswer;if(e==null)return"reponse_directe";const p=parseFloat(this._inner?.getAttribute("placeTarget")??"NaN");return Math.abs(e-p)<.001?"done":"erreur_reponse_directe"}validate(){return this._inner?.validate?.()}toggleSolution(e){return this._inner?.toggleSolution?.(e)}}customElements.get("math974-axe-gradue-zefor")||customElements.define("math974-axe-gradue-zefor",k);export{$ as autoScale,w as defaultPosition,C as randomize};
