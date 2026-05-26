@@ -1,4 +1,4 @@
-import{T as f,j as x}from"./fullscreen-viewer.B_jaO6FR.js";import"./editor.CJZspgfY.js";const h=`# ─────────────────────────────────────────────────────────────────────────────
+import{T as f,j as x}from"./fullscreen-viewer.Bzd2UUCx.js";import"./editor.CJZspgfY.js";const h=`# ─────────────────────────────────────────────────────────────────────────────
 # Patterns d'erreur — Zefor 01-retour-unite (variante satisf-schema-entiers)
 #
 # Couche 4 du modèle Zefor : matrice de diagnostic déterministe des erreurs
