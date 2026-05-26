@@ -1,4 +1,4 @@
-import{randomize as L}from"./axe-gradue.Dfo1EJ7b.js";import"./fullscreen-viewer.CrYaFVH1.js";import"./editor.CJZspgfY.js";const v="content",y=!0,b=`
+import{randomize as L}from"./axe-gradue.CnttRQ10.js";import"./fullscreen-viewer.DUE8ySON.js";import"./editor.CJZspgfY.js";const v="content",y=!0,b=`
 math974-axe-gradue-zefor {
   display: block;
   width: 100%;
