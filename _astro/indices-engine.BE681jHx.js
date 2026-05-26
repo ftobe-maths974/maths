@@ -1,5 +1,5 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["_astro/fullscreen-viewer.BKEUJorf.js","_astro/editor.CJZspgfY.js","_astro/error-detector.DJoVy08N.js"])))=>i.map(i=>d[i]);
-import{_ as f}from"./editor.CJZspgfY.js";import{T as q,j as L}from"./fullscreen-viewer.BKEUJorf.js";const y=`# Matrice d'indices — fiche 24.04 retour à l'unité (cycle 3)
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["_astro/fullscreen-viewer.BsSWFC4O.js","_astro/editor.CJZspgfY.js","_astro/error-detector.CDCvZcfH.js"])))=>i.map(i=>d[i]);
+import{_ as b}from"./editor.CJZspgfY.js";import{T as q,j as L}from"./fullscreen-viewer.BsSWFC4O.js";const y=`# Matrice d'indices — fiche 24.04 retour à l'unité (cycle 3)
 #
 # BROUILLON v0 — à relire/corriger par Florian (style, formulation, pédago).
 #
@@ -137,87 +137,134 @@ variantes:
         description: "Facteurs différents à gauche et à droite (rupture du tableau)"
         cible_phase: div_droite|mult_droite
         indice: "Dans un tableau de proportionnalité, **le même facteur** apparaît à gauche et à droite. Vérifie."
-`,P=`# Matrice d'indices — fiche Zefor 2 graduer-axe-fraction (cycle 3, GS 2.5)
+`,C=`# Matrice d'indices — fiche Zefor 2 graduer-axe-fraction (cycle 3, GS 2.5)
 #
-# BROUILLON v0 — à relire/corriger par Florian (style, formulation, pédago).
+# Phases calquées sur la méthode A/B/C/D du guide-c3 p.6 + phases Zefor pour
+# les états « pas de réponse » et « réponse fausse sans pattern reconnu ».
 #
-# Phases calquées sur la méthode A/B/C du guide-c3 p.6 + phases Zefor pour
-# l'état « pas de réponse » et « réponse fausse sans pattern reconnu ».
+# Phases (toutes variantes partagent les mêmes data-phase grâce au wrapper) :
+#   reponse_directe         — l'élève n'a pas encore agi (axe vide ou input vide)
+#   erreur_reponse_directe  — réponse fausse SANS pattern d'erreur reconnu
+#                              (les patterns reconnus sont servis par error-detector)
+#   identifier_denominateur — A : « combien de parts dans 1 unité (= dénominateur) »
+#   identifier_unite        — B : « 1 pas = 1/d »
+#   compter_pas             — C : « combien de pas (= numérateur) »
+#   placer_le_curseur       — D : action finale (clic axe en PLACER, taper {answer} en LIRE)
 #
-# Phases du visuel axe-gradue :
-#   reponse_directe       — l'élève n'a pas encore cliqué/placé son point
-#   erreur_reponse_directe — réponse fausse sans pattern d'erreur reconnu
-#                            (les patterns reconnus sont servis par error-detector)
-#   identifier_unite      — A : « l'unité, c'est le segment 0→1, pas tout l'axe »
-#   identifier_denominateur — B : « partage l'unité en N parts (N = dénominateur) »
-#   compter_pas           — C : « avance de p pas depuis 0 (p = numérateur) »
-#   placer_le_curseur     — D : « clique précisément sur la graduation atteinte »
+# Architecture : 2 jeux de phases factorisés par YAML anchors —
+# \`placer-base\` (PLACER) et \`lire-base\` (LIRE) — réutilisés sur les 5
+# variantes de chaque mode (fragile / satisf / satisf-pls / ts / expert).
+# Le ton peut être affiné par variante en surchargeant l'anchor.
 #
 # Variables disponibles dans les templates :
-#   [num]    numérateur de la fraction cible
-#   [den]    dénominateur de la fraction cible
-#   [val]    valeur décimale équivalente (rarement utilisée — on parle en fraction)
+#   [num]  numérateur de la fraction cible
+#   [den]  dénominateur
+#   [val]  valeur décimale (rarement utilisé — on parle en fraction)
 #   [max]  borne max de l'axe (1, 2 ou 3 selon variante)
 #
-# Niveaux d'indice (progressifs, l'élève peut en demander plusieurs) :
+# Niveaux d'indice (l'élève peut en demander plusieurs, escalade n1→n2→n3) :
 #   n1 — reformulation, renvoie à l'énoncé, pas de pointage spatial
-#   n2 — pointe la zone exacte sans révéler le calcul
+#   n2 — pointe la zone exacte, sans révéler le calcul
 #   n3 — décompose la procédure, mais ne donne JAMAIS la réponse en clair
 # ─────────────────────────────────────────────────────────────────────────────
 
 variantes:
 
-  # ═════════ GROUPE 1 — FRAGILE : fractions ≤ 1, dénos 2/4/5, axe 0→1 ═════════
+  # ═════════ JEU PLACER (V1, V3, V5, V7, V9) ═══════════════════════════════
+  # Tous les variantes PLACER réutilisent ce jeu (anchor &placer-base).
 
-  fragile-placer-0-1:
-
+  fragile-placer-0-1: &placer-base
     phases:
 
       reponse_directe:
         description: L'élève voit l'axe vide, n'a pas encore placé son point
-        n1: "Tu cherches à placer la fraction **[num]/[den]**. La méthode du guide a trois étapes : **A** (l'unité), **B** (partage), **C** (avance). On commence par quoi ?"
-        n2: "Regarde l'axe : tu vois le segment qui va de **0 à 1**. C'est l'**unité**. Toutes les autres unités après 1 ne servent pas pour cette fraction (elle est inférieure à 1)."
-        n3: "1) L'unité = segment 0→1. 2) Partage-la en **[den]** parts égales. 3) Avance de **[num]** pas depuis 0. Clique à cette graduation."
+        n1: "Tu cherches à placer la fraction **[num]/[den]**. La méthode du guide a quatre étapes : **A** (dénominateur), **B** (1 pas), **C** (compter), **D** (placer). On commence par quoi ?"
+        n2: "Ouvre le panneau **🔧 Aide pas-à-pas** sous l'axe. Il te guide étape par étape."
+        n3: "1) Dénominateur = [den] → partage l'unité (0→1) en [den] parts. 2) 1 pas = 1/[den]. 3) Numérateur = [num] → avance de [num] pas depuis 0. 4) Clique."
 
       erreur_reponse_directe:
-        description: Réponse incorrecte, aucun pattern d'erreur connu détecté
-        n1: "Ta réponse n'est pas la bonne. Refais le raisonnement à voix haute : qu'est-ce que représente le **dénominateur** [den] ? Et le **numérateur** [num] ?"
-        n2: "Le dénominateur [den] te dit en combien de parts partager **1 unité** (le segment 0→1). Le numérateur [num] te dit combien de parts tu prends depuis 0."
+        description: Réponse fausse, aucun pattern d'erreur reconnu
+        n1: "Ta réponse n'est pas la bonne. Refais le raisonnement à voix haute : que représente le **dénominateur** [den] ? Et le **numérateur** [num] ?"
+        n2: "Le dénominateur [den] te dit en combien de parts partager **1 unité** (segment 0→1). Le numérateur [num] te dit combien de parts tu prends depuis 0."
         n3: "Recompte : depuis 0, avance de **[num]** pas où chaque pas vaut **1/[den]** d'unité."
 
-      identifier_unite:
-        description: L'élève cherche où est l'unité de l'axe
-        n1: "L'**unité**, c'est le segment qui va de **0 à 1** sur l'axe. C'est cette longueur qu'on va découper en plusieurs parts."
-        n2: "Pointe avec ton doigt le **0** et le **1** sur l'axe. Le segment entre ces deux points est l'unité."
-        n3: "L'unité = segment 0→1. Pas tout l'axe, juste de 0 jusqu'à 1."
-
       identifier_denominateur:
-        description: L'élève cherche en combien de parts partager
-        n1: "Le **dénominateur** te dit en combien de parts égales partager **1 unité**. Quel est le dénominateur de [num]/[den] ?"
-        n2: "Le dénominateur de **[num]/[den]**, c'est **[den]**. Donc tu partages l'unité (segment 0→1) en **[den]** parts égales."
-        n3: "Compte les graduations entre 0 et 1 sur l'axe — il devrait y en avoir [den] (avec 0 et 1 inclus, ça fait [=den+1] traits)."
+        description: Step A — l'élève cherche le nombre de parts dans l'unité
+        n1: "Le **dénominateur** d'une fraction te dit en combien de parts partager 1 unité. Regarde [num]/[den] : c'est le nombre du **bas**."
+        n2: "Dans **[num]/[den]**, le dénominateur c'est **[den]** (en bas)."
+        n3: "Réponse : **[den]**. Il y a donc [den] pas dans 1 unité."
+
+      identifier_unite:
+        description: Step B — l'élève cherche la valeur d'un pas
+        n1: "Une unité (segment 0→1) contient [den] pas égaux. Combien vaut 1 pas ?"
+        n2: "1 pas = 1 unité divisé par [den] pas = **1 / [den]**."
+        n3: "Saisis **1** au numérateur et **[den]** au dénominateur."
 
       compter_pas:
-        description: L'élève cherche combien de pas avancer
-        n1: "Le **numérateur** te dit combien de pas avancer depuis 0. Quel est le numérateur de [num]/[den] ?"
-        n2: "Numérateur de **[num]/[den]** = **[num]**. Pars de 0 et avance de [num] graduations."
-        n3: "Mets ton doigt sur 0, puis compte « 1, 2, … [num] » en sautant d'une graduation à l'autre."
+        description: Step C — l'élève cherche combien de pas avancer
+        n1: "Le **numérateur** de [num]/[den] te dit combien de pas tu prends depuis 0. C'est le nombre du **haut**."
+        n2: "Dans **[num]/[den]**, le numérateur c'est **[num]**."
+        n3: "Réponse : **[num]**. Pars de 0 et avance de [num] pas (chacun de 1/[den])."
 
       placer_le_curseur:
-        description: L'élève sait quelle graduation viser mais clique imprécisément
-        n1: "Clique **précisément sur la graduation**, pas entre deux. Le curseur va se caler dessus."
-        n2: "Tu cherches la graduation **n°[num]** en partant de 0 (0 = graduation n°0)."
+        description: Step D — l'élève doit cliquer sur l'axe
+        n1: "Compte [num] graduations depuis 0, puis **clique précisément** sur cette position."
+        n2: "Le curseur se cale automatiquement sur la graduation la plus proche."
 
-  # 1.1 et les autres variantes héritent par défaut du même schéma de phases
-  # (méthode A/B/C est universelle pour ce GS). Pour l'instant on n'instancie
-  # que \`fragile-placer-0-1\` ; on copiera/adaptera les variantes suivantes
-  # quand on aura des retours élèves sur la 1ʳᵉ.
-  #
-  # TODO Florian : à valider en classe avant d'instancier les 7 autres
-  # variantes (satisf-lire-0-1, satisf-placer-0-1, satisf-lire-0-2, etc.).
-  # Les phases sont identiques, seul le ton peut s'élever (« tu peux faire
-  # mieux que ça » en TS, plus accompagnant en fragile).
-`,A=`# Matrice d'indices — fiche 24.04 retour à l'unité (cycle 3)
+  # Les autres PLACER réutilisent placer-base via l'anchor.
+  satisf-placer:        *placer-base
+  satisf-placer-pls:    *placer-base
+  ts-placer:            *placer-base
+  expert-placer-entier: *placer-base
+
+
+  # ═════════ JEU LIRE (V2, V4, V6, V8, V10) ════════════════════════════════
+  # Tous les variantes LIRE réutilisent ce jeu (anchor &lire-base).
+
+  fragile-lire-0-1: &lire-base
+    phases:
+
+      reponse_directe:
+        description: L'élève voit l'axe et un point, n'a pas encore tapé la réponse
+        n1: "Tu cherches l'abscisse du point sur l'axe. La méthode du guide : **A** (combien de parts dans 1 unité ?), **B** (1 pas = ?), **C** (combien de pas depuis 0 jusqu'au point ?), **D** (réponse = fraction)."
+        n2: "Ouvre le panneau **🔧 Aide pas-à-pas** sous l'axe. Il te guide étape par étape."
+        n3: "1) Compte les pas entre 0 et 1 (= dénominateur). 2) 1 pas = 1/d. 3) Compte les pas entre 0 et le point (= numérateur). 4) Tape numérateur/dénominateur."
+
+      erreur_reponse_directe:
+        description: Réponse fausse, aucun pattern d'erreur reconnu
+        n1: "Ta réponse n'est pas la bonne. Vérifie : combien de parts entre 0 et 1 ? Et combien de pas entre 0 et le point ?"
+        n2: "L'abscisse du point = (nombre de pas depuis 0) / (nombre de parts dans 1 unité). C'est num/den."
+        n3: "Recompte depuis 0 jusqu'au point. Chaque pas vaut 1/[den]. Le point est à [num] pas → abscisse = [num]/[den]."
+
+      identifier_denominateur:
+        description: Step A — l'élève cherche en combien de parts l'unité est divisée
+        n1: "Regarde l'axe : combien y a-t-il de **petits pas** entre **0** et **1** ? C'est le dénominateur."
+        n2: "Compte les graduations entre 0 et 1 (sans compter 0). Tu en trouveras **[den]**."
+        n3: "Réponse : **[den]** parts dans 1 unité."
+
+      identifier_unite:
+        description: Step B — l'élève cherche la valeur d'un pas
+        n1: "Une unité contient [den] pas égaux. Donc 1 pas = ?"
+        n2: "1 pas = 1 unité divisé par [den] pas = **1 / [den]**."
+        n3: "Saisis **1** au numérateur et **[den]** au dénominateur."
+
+      compter_pas:
+        description: Step C — l'élève cherche combien de pas entre 0 et le point
+        n1: "Compte le nombre de **pas** (petites graduations) entre **0** et le **point**."
+        n2: "Mets ton doigt sur 0 puis avance d'un pas à la fois jusqu'au point. Compte les pas."
+        n3: "Réponse : **[num]** pas."
+
+      placer_le_curseur:
+        description: Step D — l'élève doit taper l'abscisse dans le champ {answer}
+        n1: "Tu as tout : il y a [num] pas, chacun vaut 1/[den]. L'abscisse est donc **[num] / [den]**. Tape-la dans le champ au-dessus."
+        n2: "Numérateur = [num], dénominateur = [den]. Saisis-les dans les deux cases."
+
+  # Les autres LIRE réutilisent lire-base via l'anchor.
+  satisf-lire:        *lire-base
+  satisf-lire-pls:    *lire-base
+  ts-lire:            *lire-base
+  expert-lire-entier: *lire-base
+`,R=`# Matrice d'indices — fiche 24.04 retour à l'unité (cycle 3)
 #
 # BROUILLON v0 — à relire/corriger par Florian (style, formulation, pédago).
 #
@@ -337,4 +384,4 @@ variantes:
         description: "Facteurs différents à gauche et à droite (rupture du tableau)"
         cible_phase: div_droite|mult_droite
         indice: "Dans un tableau de proportionnalité, **le même facteur** apparaît à gauche et à droite. Vérifie."
-`,v=Object.assign({"../data/indices/01-retour-unite.yaml":y,"../data/indices/02-graduer-axe-fraction.yaml":P,"../data/indices/24.04-retour-unite.yaml":A}),C=(()=>{const n={};for(const t of Object.keys(v)){const e=t.match(/\/([^/]+)\.yaml$/)?.[1];if(e)try{n[e]=L.load(v[t])}catch(i){console.error(`[indices] erreur de parsing ${t}:`,i)}}return n})();function x(n,t){const e=C[n];return e?.variantes?e.variantes[t]??null:null}function O(n){const t=n?.dataset?.ref;if(!t)return!1;const i=n.querySelector(".variant-content.active")?.dataset?.id;return i?!!x(t,i):!1}function R(n){const t=n.querySelectorAll(".q-card-north,.q-card-south,.q-card-east,.q-card-west,.q-content-visual,[data-place-mode]");for(const e of t){const i=e.tagName?.toLowerCase().startsWith("math974-")?[e]:[...e.children];for(const r of i)if(typeof r.getCurrentPhase=="function")return r}return null}async function h(n,t){if(!n)return"";const e=new q;e.reset(),Object.entries(t).forEach(([s,a])=>{(typeof a=="number"||a&&typeof a=="object"&&!Array.isArray(a))&&e.variables.set(s,a)});const i=e.parse(n,"web"),{miniMd:r}=await f(async()=>{const{miniMd:s}=await import("./fullscreen-viewer.BKEUJorf.js").then(a=>a.h);return{miniMd:s}},__vite__mapDeps([0,1]));return r(i)}async function E(n,t={level:1}){const e=n?.dataset?.ref;if(!e)return null;const i=n.querySelector(".variant-content.active"),r=i?.dataset?.id;if(!r)return null;const s=x(e,r),a=R(n),u=a?.getCurrentPhase?.()??"initial";if(u==="done")return{html:"Tu as déjà tout bon ici. Bravo !",phase:u,level:1,isDone:!0};const o=i?.visualData?.config??{},c=Math.min(Math.max(t.level|0,1),3);if(u==="erreur_reponse_directe")try{const{detectErrorPattern:d}=await f(async()=>{const{detectErrorPattern:g}=await import("./error-detector.DJoVy08N.js");return{detectErrorPattern:g}},__vite__mapDeps([2,0,1])),_=a?.querySelector?.(".rapido-input")?.value??"",l=d({ref:e,variantId:r,studentValue:_,vars:o});if(l){const b=c===2&&l.relance||l.indice;return{html:await h(b,o),phase:u,level:c,isDone:!1,patternId:l.id}}}catch(d){console.error("[indices] error-detector:",d)}if(!s)return null;const p=s.phases?.[u];if(!p)return null;const m=p[`n${c}`];return m?{html:await h(m,o),phase:u,level:c,isDone:!1}:null}export{O as cardHasIndices,E as getNextIndice};
+`,v=Object.assign({"../data/indices/01-retour-unite.yaml":y,"../data/indices/02-graduer-axe-fraction.yaml":C,"../data/indices/24.04-retour-unite.yaml":R}),A=(()=>{const n={};for(const t of Object.keys(v)){const e=t.match(/\/([^/]+)\.yaml$/)?.[1];if(e)try{n[e]=L.load(v[t])}catch(a){console.error(`[indices] erreur de parsing ${t}:`,a)}}return n})();function f(n,t){const e=A[n];return e?.variantes?e.variantes[t]??null:null}function S(n){const t=n?.dataset?.ref;if(!t)return!1;const a=n.querySelector(".variant-content.active")?.dataset?.id;return a?!!f(t,a):!1}function P(n){const t=n.querySelectorAll(".q-card-north,.q-card-south,.q-card-east,.q-card-west,.q-content-visual,[data-place-mode]");for(const e of t){const a=e.tagName?.toLowerCase().startsWith("math974-")?[e]:[...e.children];for(const r of a)if(typeof r.getCurrentPhase=="function")return r}return null}async function g(n,t){if(!n)return"";const e=new q;e.reset(),Object.entries(t).forEach(([s,i])=>{(typeof i=="number"||i&&typeof i=="object"&&!Array.isArray(i))&&e.variables.set(s,i)});const a=e.parse(n,"web"),{miniMd:r}=await b(async()=>{const{miniMd:s}=await import("./fullscreen-viewer.BsSWFC4O.js").then(i=>i.h);return{miniMd:s}},__vite__mapDeps([0,1]));return r(a)}async function V(n,t={level:1}){const e=n?.dataset?.ref;if(!e)return null;const a=n.querySelector(".variant-content.active"),r=a?.dataset?.id;if(!r)return null;const s=f(e,r),i=P(n),u=i?.getCurrentPhase?.()??"initial";if(u==="done")return{html:"Tu as déjà tout bon ici. Bravo !",phase:u,level:1,isDone:!0};const o=a?.visualData?.config??{},l=Math.min(Math.max(t.level|0,1),3);if(u==="erreur_reponse_directe")try{const{detectErrorPattern:p}=await b(async()=>{const{detectErrorPattern:h}=await import("./error-detector.CDCvZcfH.js");return{detectErrorPattern:h}},__vite__mapDeps([2,0,1])),_=i?.querySelector?.(".rapido-input")?.value??"",c=p({ref:e,variantId:r,studentValue:_,vars:o});if(c){const x=l===2&&c.relance||c.indice;return{html:await g(x,o),phase:u,level:l,isDone:!1,patternId:c.id}}}catch(p){console.error("[indices] error-detector:",p)}if(!s)return null;const d=s.phases?.[u];if(!d)return null;const m=d[`n${l}`];return m?{html:await g(m,o),phase:u,level:l,isDone:!1}:null}export{S as cardHasIndices,V as getNextIndice};
