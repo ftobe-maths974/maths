@@ -1,6 +1,8 @@
-<!DOCTYPE html><html lang="fr"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Favoris & Historique - Maths974</title><link rel="icon" type="image/svg+xml" href="/maths/favicon.svg"><link rel="stylesheet" href="/maths/_astro/_slug_.D-U43UoC.css"><script type="module" src="/maths/_astro/hoisted.CABNSyVN.js"></script></head> <body> <nav class="main-navbar no-print"> <div class="navbar-content"> <a href="/maths/" class="brand" aria-label="Accueil Maths974"> <img src="/maths/images/logo.svg" alt="Maths974" class="logo-icon"> </a> <nav class="navbar-breadcrumb" aria-label="Fil d'ariane"> <ol> <li><a href="/maths/">Accueil</a></li>   <li class="separator">/</li> <li class="current" aria-current="page">Favoris</li>  </ol> </nav> <div class="navbar-spacer"></div> <a href="/maths/profil/" class="btn-icon profil-btn" aria-label="Mon profil" title="Mon profil — résultats et stats">
-👤
-</a> <div class="hamburger-wrapper"> <button id="navHamburger" class="btn-icon hamburger-btn" aria-label="Menu de navigation" aria-expanded="false" title="Menu">
+<!DOCTYPE html><html lang="fr"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Favoris & Historique - Maths974</title><link rel="icon" type="image/svg+xml" href="/maths/favicon.svg"><link rel="stylesheet" href="/maths/_astro/_slug_.DlUNQUwj.css"><script type="module" src="/maths/_astro/hoisted.CABNSyVN.js"></script></head> <body> <nav class="main-navbar no-print"> <div class="navbar-content"> <a href="/maths/" class="brand" aria-label="Accueil Maths974"> <img src="/maths/images/logo.svg" alt="Maths974" class="logo-icon"> </a> <nav class="navbar-breadcrumb" aria-label="Fil d'ariane"> <ol> <li><a href="/maths/">Accueil</a></li>   <li class="separator">/</li> <li class="current" aria-current="page">Favoris</li>  </ol> </nav> <div class="navbar-spacer"></div>  <a href="/maths/automaths/rapido/" class="btn-icon nav-cart-btn" aria-label="Ouvrir le caddy automaths" title="Mon caddy automaths">
+🛒
+<span id="nav-cart-count" class="nav-cart-count" hidden></span> </a> <a href="/maths/automaths/rapido/?mode=classe" class="btn-icon nav-zeclair-btn" aria-label="Lancer le caddy en mode rapido-prof" title="⚡ Lancer le rapido-prof — projection des fiches du caddy">
+⚡
+</a> <a href="/maths/profil/" class="btn-icon profil-btn" id="navProfilBtn" aria-label="Mon profil" title="Mon profil — résultats et stats"> <span class="profil-btn-emoji" id="navProfilEmoji">👤</span> <span class="profil-btn-name" id="navProfilName" hidden></span> </a> <div class="hamburger-wrapper"> <button id="navHamburger" class="btn-icon hamburger-btn" aria-label="Menu de navigation" aria-expanded="false" title="Menu">
 ☰
 </button> <div id="navMenu" class="nav-menu hidden"> <a href="/maths/" class="nav-menu-item"> <span class="nav-menu-icon">🏠</span> Accueil
 </a> <a href="/maths/recherche/" class="nav-menu-item"> <span class="nav-menu-icon">🔍</span> Recherche
@@ -70,6 +72,64 @@
       if (menu && !menu.contains(e.target) && !btn.contains(e.target)) toggleMenu(false);
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
+
+    // ── Pastille 🛒 (nb d'automaths dans le caddy) ────────────────────────
+    // Lit `maths974-cart` (cf. caddy-store.js) au mount + à chaque event
+    // `cart:change` (émis par saveCart). Pastille cachée si caddy vide.
+    const cartCountEl = document.getElementById('nav-cart-count');
+    function syncCartCount() {
+      if (!cartCountEl) return;
+      let n = 0;
+      try {
+        const raw = localStorage.getItem('maths974-cart');
+        const cart = raw ? JSON.parse(raw) : [];
+        n = Array.isArray(cart) ? cart.length : 0;
+      } catch {}
+      if (n > 0) { cartCountEl.textContent = String(n); cartCountEl.hidden = false; }
+      else       { cartCountEl.hidden = true; }
+    }
+    syncCartCount();
+    window.addEventListener('cart:change', syncCartCount);
+    window.addEventListener('storage', e => { if (e.key === 'maths974-cart') syncCartCount(); });
+
+    // ── Identité élève : remplace 👤 par {avatar} {pseudo} si configuré ──
+    // L'avatar+pseudo sont stockés via /profil/ (cf. profil.astro). Le
+    // bouton profil de la navbar les reflète en temps réel pour donner un
+    // sentiment de "compte personnel". Tooltip = "Mon profil — chaton31".
+    function syncProfilBtn() {
+      const emojiEl = document.getElementById('navProfilEmoji');
+      const nameEl  = document.getElementById('navProfilName');
+      const btn     = document.getElementById('navProfilBtn');
+      if (!emojiEl || !nameEl || !btn) return;
+      const id     = localStorage.getItem('maths974-eleve-id')     || '';
+      const avatar = localStorage.getItem('maths974-eleve-avatar') || '';
+      if (avatar) emojiEl.textContent = avatar;
+      else        emojiEl.textContent = '👤';
+      if (id) {
+        nameEl.textContent = id;
+        nameEl.hidden = false;
+        btn.classList.add('profil-btn--named');
+        btn.title = 'Mon profil — ' + id;
+      } else {
+        nameEl.hidden = true;
+        btn.classList.remove('profil-btn--named');
+        btn.title = 'Mon profil — résultats et stats';
+      }
+    }
+    syncProfilBtn();
+    // Synchro cross-onglet si l'élève change son pseudo dans un autre onglet.
+    window.addEventListener('storage', e => {
+      if (e.key && e.key.startsWith('maths974-eleve-')) syncProfilBtn();
+    });
+    // Re-synchro à CHAQUE navigation Astro (ViewTransitions = SPA-like, le
+    // script inline ne re-tourne pas, mais le DOM Navbar oui → les refs
+    // d'éléments changent et localStorage a pu bouger entre-temps si
+    // l'élève vient de /profil/. Sans ça, l'avatar de la navbar reste
+    // figé tant qu'on n'a pas full-reload.
+    document.addEventListener('astro:page-load', () => {
+      syncCartCount();
+      syncProfilBtn();
+    });
   })();
 </script> <main class="page-container"> <header class="page-header"> <h1>Mes Favoris & Historique</h1> <p>Retrouvez vos fiches sauvegardées et vos dernières consultations.</p> </header> <div class="tabs"> <button class="tab-btn active" data-tab="favoris">
 ⭐ Favoris <span class="tab-badge" id="favorisCount">0</span> </button> <button class="tab-btn" data-tab="historique">
