@@ -87,6 +87,13 @@
       document.querySelectorAll('[data-back]').forEach((b) =>
         b.addEventListener('click', () => showView('grid')));
 
+      // La fiche (vue élève) embarquée dans l'iframe demande la fermeture via
+      // postMessage quand l'élève clique sa croix ✕ → retour à la grille
+      // (le filtre cycle reste appliqué). Cf. AutomathsLayout onClose.
+      window.addEventListener('message', (e) => {
+        if (e?.data?.type === 'cv-close-fiche') showView('grid');
+      });
+
       document.getElementById('cv-a4-btn').addEventListener('click', () => {
         a4Frame.src = caddyUrl + '?mode=classe';
         webFrame.src = caddyUrl;
