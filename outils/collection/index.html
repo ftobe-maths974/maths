@@ -89,7 +89,11 @@
       // postMessage quand l'élève clique sa croix ✕ → retour à la grille
       // (le filtre cycle reste appliqué). Cf. AutomathsLayout onClose.
       window.addEventListener('message', (e) => {
-        if (e?.data?.type === 'cv-close-fiche') showView('grid');
+        // Fermeture fiche OU « + » du panneau caddy → retour grille (le caddy
+        // reste chargé dans l'iframe, panneau épinglé ouvert côté caddy).
+        if (e?.data?.type === 'cv-close-fiche' || e?.data?.type === 'cv-show-grid') {
+          showView('grid');
+        }
       });
 
       // 🛒 (barre aperçu) → ouvre/ferme le panneau caddy DANS l'iframe (la
