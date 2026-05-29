@@ -42,6 +42,16 @@
         el.addEventListener('change', apply);
       });
 
+      // ── Pré-filtre depuis l'URL (?cycle=C3|DNB|Zefor) ──
+      // Les 3 boutons de la page d'accueil (Zefor / Cycle 3 / Cycle 4) mènent
+      // ici en pré-filtrant sur le cycle cliqué. Plus simple qu'un catalogue
+      // par cycle : une seule page, filtrée.
+      const _cyParam = new URLSearchParams(location.search).get('cycle');
+      if (_cyParam && [...fCycle.options].some((o) => o.value === _cyParam)) {
+        fCycle.value = _cyParam;
+      }
+      apply();   // applique l'état initial (pré-filtre ou « tout »)
+
       // ── Navigation interne ──
       const gridView = document.getElementById('cv-grid-view');
       const iframeView = document.getElementById('cv-iframe-view');
