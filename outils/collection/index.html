@@ -174,9 +174,12 @@ const caddyMeta = {"3e-dnb/04-donnees-probabilites/19-statistiques/191-effectifs
         try { localStorage.setItem(CART_KEY, '[]'); } catch {}
         renderCaddy();
       });
-      // « + » → retour grille pour piocher une fiche (elle s'ajoutera à la suite
-      // au 1er coche de variante).
-      document.getElementById('cv-caddy-add').addEventListener('click', () => showView('grid'));
+      // « + » → ajoute la VARIANTE EN COURS (celle affichée dans l'automaths
+      // ouvert) au caddy : postMessage à l'iframe → elle coche la variante
+      // active (persistItem l'ajoute). Ne ferme pas l'automaths.
+      document.getElementById('cv-caddy-add').addEventListener('click', () => {
+        try { fiche.contentWindow.postMessage({ type: 'cv-add-current-variant' }, '*'); } catch {}
+      });
 
       // Drag & drop pour réordonner (store propre = actifs only → index affiché
       // == index store).
