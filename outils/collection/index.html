@@ -62,6 +62,13 @@ const caddyMeta = {"3e-dnb/04-donnees-probabilites/19-statistiques/191-effectifs
       const webFrame = document.getElementById('cv-web-frame');
 
       function showView(which) {
+        // Sortie du plein écran NATIF (bouton ⛶ sur #cv-iframe-view) AVANT de
+        // changer de vue : sinon document.fullscreenElement reste l'élément
+        // qu'on masque → le navigateur reste bloqué sur un élément display:none
+        // (grille figée, reload obligatoire). Cf. todo Florian.
+        if (which !== 'iframe' && document.fullscreenElement) {
+          document.exitFullscreen?.().catch(() => {});
+        }
         gridView.hidden = which !== 'grid';
         iframeView.hidden = which !== 'iframe';
         a4View.hidden = which !== 'a4';
