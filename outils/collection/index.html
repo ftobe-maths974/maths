@@ -387,15 +387,21 @@ const caddyMeta = {"3e-dnb/04-donnees-probabilites/19-statistiques/191-effectifs
           writeMissions(missions); renderCaddy();
           return;
         }
-        // Clic sur la LIGNE (✏️ ou ailleurs, hors ✕) → ouvre/synchronise la vue
-        // caddy sur cette instance (?iid=) + surligne le calque sélectionné.
+        // Clic sur la LIGNE (✏️ ou ailleurs, hors ✕) → synchronise sur cette
+        // instance (?iid=) + surligne le calque.
         const it = findInstance(iid); if (!it) return;
         caddyList.querySelectorAll('.cv-caddy-row.selected').forEach(r => r.classList.remove('selected'));
         row.classList.add('selected');
         const url = caddyUrl + '?iid=' + encodeURIComponent(iid) + '&from=collection';
-        fiche.src = url; ficheOpen.href = url;
-        ficheTitle.textContent = caddyMeta[it.ref]?.t || it.ref;
-        showView('iframe');
+        if (!a4View.hidden) {
+          // En vue PDF : on NE FERME PAS le PDF → on charge le caddy dans le
+          // panneau DROIT (webFrame) sur cette instance.
+          webFrame.src = url;
+        } else {
+          fiche.src = url; ficheOpen.href = url;
+          ficheTitle.textContent = caddyMeta[it.ref]?.t || it.ref;
+          showView('iframe');
+        }
       });
       // Renommer une mission (contenteditable → blur, capture car blur ne bubble pas).
       caddyList.addEventListener('blur', (e) => {
@@ -572,10 +578,10 @@ const caddyMeta = {"3e-dnb/04-donnees-probabilites/19-statistiques/191-effectifs
         clearTimeout(a4ReloadT);
         a4ReloadT = setTimeout(() => {
           // reload() conserve l'URL courante (donc per/page/fs/ratio/marges) ;
-          // fallback : reconstruit l'URL complète via loadA4Page.
+          // fallback : reconstruit l'URL complète via loadA4.
           try { a4Frame.contentWindow.location.reload(); }
           catch { loadA4(); }
-        }, 400);
+        }, 150);   // débounce court → moins de décalage caddy ↔ pdf
       }
       // Deux sources de changement du caddy :
       //  • l'iframe caddy (webFrame) écrit localStorage → `storage` event sur le
@@ -587,7 +593,7 @@ const caddyMeta = {"3e-dnb/04-donnees-probabilites/19-statistiques/191-effectifs
       window.addEventListener('storage', (e) => {
         if (e.key === MISSIONS_KEY || e.key === CART_KEY || e.key === null) { refreshA4(); renderCaddy(); }
       });
-      window.addEventListener('cart:change', () => { refreshA4(); });
+      window.addEventListener('cart:change', () => { refreshA4(); renderCaddy(); });
 
       document.getElementById('cv-print').addEventListener('click', () => {
         try { a4Frame.contentWindow.focus(); a4Frame.contentWindow.print(); }
