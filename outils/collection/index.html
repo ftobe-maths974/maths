@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="fr"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Collection automaths — Maths974</title><link rel="stylesheet" href="/maths/_astro/collection.BYovD2by.css"></head> <body> <div id="sidebar"> <div class="cv-side-head"> <h1>📚 Collection</h1> <a href="/maths/" class="back">← Accueil</a> <button type="button" class="cv-filter-toggle" id="cv-filter-toggle" aria-expanded="false" aria-controls="cv-filters">⚙ Filtres</button> </div> <input type="text" id="q" placeholder="🔍 titre, id, GS, thème…" autocomplete="off"> <div class="cv-filters" id="cv-filters"> <div> <label for="f-theme">Thème</label> <select id="f-theme"> <option value="">Tous les thèmes</option> <option value="Données et probabilités">Données et probabilités</option><option value="Espace et géométrie">Espace et géométrie</option><option value="Grandeurs et mesures">Grandeurs et mesures</option><option value="Initiation à la pensée informatique">Initiation à la pensée informatique</option><option value="Nombres et calculs">Nombres et calculs</option><option value="Organisation et gestion de données, Probabilités">Organisation et gestion de données, Probabilités</option><option value="Proportionnalité">Proportionnalité</option><option value="Résolution de problèmes">Résolution de problèmes</option><option value="Tableur">Tableur</option> </select> </div> <div> <label for="f-cycle">Cycle / source</label> <select id="f-cycle"> <option value="">Tous</option> <option value="C3">Cycle 3 (6e)</option> <option value="DNB">3e-DNB</option> <option value="Zefor">Zefor974</option> <option value="autre">Autre</option> </select> </div> <div> <label for="f-niveau">Contient le niveau</label> <select id="f-niveau"> <option value="">Peu importe</option> <option value="fragile">fragile</option><option value="satisfaisant">satisfaisant</option><option value="tres-satisfaisant">tres-satisfaisant</option><option value="expert">expert</option> <option value="__none__">(aucun niveau)</option> </select> </div> <div> <label for="f-sort">Tri</label> <select id="f-sort"> <option value="theme">Par thème (défaut)</option> <option value="alpha">Alphabétique (titre A→Z)</option> <option value="gs">Par numéro de GS</option> </select> </div> <div class="cv-stats"> <div><b>120</b> fiches · <b>552</b> variantes</div> <div style="margin-top:6px"> <span class="tag">C3 : 66</span> <span class="tag">DNB : 51</span> <span class="tag">Zefor : 3</span> </div> <div style="margin-top:6px"><b>9</b> thèmes</div> </div> </div>  <div class="cv-tools"> <label class="cv-tools-label">Outils</label> <button type="button" class="cv-tool-btn" id="cv-pdf-open" title="Ouvrir directement l'aperçu PDF (A4) du caddy">
+<!DOCTYPE html><html lang="fr"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Collection automaths — Maths974</title><link rel="stylesheet" href="/maths/_astro/collection.wMawE0DB.css"></head> <body> <div id="sidebar"> <div class="cv-side-head"> <h1>📚 Collection</h1> <a href="/maths/" class="back">← Accueil</a> <button type="button" class="cv-filter-toggle" id="cv-filter-toggle" aria-expanded="false" aria-controls="cv-filters">⚙ Filtres</button> </div> <input type="text" id="q" placeholder="🔍 titre, id, GS, thème…" autocomplete="off"> <div class="cv-filters" id="cv-filters"> <div> <label for="f-theme">Thème</label> <select id="f-theme"> <option value="">Tous les thèmes</option> <option value="Données et probabilités">Données et probabilités</option><option value="Espace et géométrie">Espace et géométrie</option><option value="Grandeurs et mesures">Grandeurs et mesures</option><option value="Initiation à la pensée informatique">Initiation à la pensée informatique</option><option value="Nombres et calculs">Nombres et calculs</option><option value="Organisation et gestion de données, Probabilités">Organisation et gestion de données, Probabilités</option><option value="Proportionnalité">Proportionnalité</option><option value="Résolution de problèmes">Résolution de problèmes</option><option value="Tableur">Tableur</option> </select> </div> <div> <label for="f-cycle">Cycle / source</label> <select id="f-cycle"> <option value="">Tous</option> <option value="C3">Cycle 3 (6e)</option> <option value="DNB">3e-DNB</option> <option value="Zefor">Zefor974</option> <option value="autre">Autre</option> </select> </div> <div> <label for="f-niveau">Contient le niveau</label> <select id="f-niveau"> <option value="">Peu importe</option> <option value="fragile">fragile</option><option value="satisfaisant">satisfaisant</option><option value="tres-satisfaisant">tres-satisfaisant</option><option value="expert">expert</option> <option value="__none__">(aucun niveau)</option> </select> </div> <div> <label for="f-sort">Tri</label> <select id="f-sort"> <option value="theme">Par thème (défaut)</option> <option value="alpha">Alphabétique (titre A→Z)</option> <option value="gs">Par numéro de GS</option> </select> </div> <div class="cv-stats"> <div><b>120</b> fiches · <b>552</b> variantes</div> <div style="margin-top:6px"> <span class="tag">C3 : 66</span> <span class="tag">DNB : 51</span> <span class="tag">Zefor : 3</span> </div> <div style="margin-top:6px"><b>9</b> thèmes</div> </div> </div>  <div class="cv-tools"> <label class="cv-tools-label">Outils</label> <button type="button" class="cv-tool-btn" id="cv-pdf-open" title="Ouvrir directement l'aperçu PDF (A4) du caddy">
 🖨️ Aperçu PDF
 </button> <button type="button" class="cv-tool-btn" id="cv-dev-toggle" aria-pressed="false" title="Affiche l'overlay DEV (marqueurs + noms d'éléments) sur la carte en aperçu">
 🔧 Mode dev
@@ -340,11 +340,14 @@ const rapidoPresets = [];
         const title = (m.t || it.ref).replace(/^[\d.]+\s*/, '');
         const niv = (Array.isArray(m.n) && m.n[0]) ? m.n[0] : '';
         const nb = Array.isArray(it.variants) ? it.variants.length : 0;
+        const emo = (Array.isArray(it.emojis) ? it.emojis : []).join('');
         return `<li class="cv-caddy-row" draggable="true" data-iid="${it.iid}" title="${esc(m.t || it.ref)}">
           <span class="cv-caddy-dot ${niv}"></span>
           ${gs ? `<span class="cv-caddy-gs">${esc(gs)}</span>` : ''}
           <span class="cv-caddy-title">${esc(title)}</span>
+          <span class="cv-caddy-emojis" title="Émojis pédagogiques">${emo}</span>
           <span class="cv-caddy-nb">${nb}v</span>
+          <button type="button" class="cv-caddy-emoji-btn" title="Émojis pédagogiques (calculatrice, outils…)" aria-label="Émojis">🏷️</button>
           <button type="button" class="cv-caddy-edit" title="Éditer (checkboxes)" aria-label="Éditer">✏️</button>
           <button type="button" class="cv-caddy-del" title="Retirer" aria-label="Retirer">✕</button>
         </li>`;
@@ -386,6 +389,11 @@ const rapidoPresets = [];
           const missions = readMissions();
           for (const m of missions) m.items = m.items.filter(it => it.iid !== iid);
           writeMissions(missions); renderCaddy();
+          return;
+        }
+        // 🏷️ → palette d'émojis pédagogiques (n'ouvre PAS la vue caddy).
+        if (e.target.closest('.cv-caddy-emoji-btn')) {
+          openEmojiPop(iid, e.target.closest('.cv-caddy-emoji-btn'));
           return;
         }
         // Clic sur la LIGNE (✏️ ou ailleurs, hors ✕) → synchronise sur cette
@@ -465,6 +473,59 @@ const rapidoPresets = [];
       }
       devBtns.forEach(b => b.addEventListener('click', toggleDev));
       syncDevBtns();
+
+      // 🏷️ Émojis pédagogiques par calque : palette flottante, toggle on/off.
+      // Stockés dans it.emojis sur l'instance ; transitent jusqu'au PDF (à
+      // droite des badges GS) via flattenMissions.
+      const EMOJI_PALETTE = [
+        { e: '🚫🧮', t: 'Sans calculatrice' }, { e: '🧮', t: 'Calculatrice autorisée' },
+        { e: '✏️', t: 'Au crayon' }, { e: '📐', t: 'Règle / équerre' },
+        { e: '🧭', t: 'Compas' }, { e: '✂️', t: 'Découper' },
+        { e: '📊', t: 'Schéma / graphique' }, { e: '🧠', t: 'Calcul mental' },
+        { e: '⏱️', t: 'Chrono' },
+      ];
+      let emojiPop = null, emojiPopIid = null;
+      function setInstanceEmojis(iid, emojis) {
+        const missions = readMissions();
+        for (const m of missions) for (const it of (m.items || [])) {
+          if (it.iid === iid) { if (emojis.length) it.emojis = emojis; else delete it.emojis; }
+        }
+        writeMissions(missions);   // → cart:change → renderCaddy + refreshA4
+      }
+      function renderEmojiPop() {
+        const it = findInstance(emojiPopIid);
+        const cur = (it && Array.isArray(it.emojis)) ? it.emojis : [];
+        emojiPop.innerHTML = EMOJI_PALETTE.map(p =>
+          `<button type="button" data-emoji="${p.e}" class="${cur.includes(p.e) ? 'on' : ''}" title="${p.t}">${p.e}</button>`
+        ).join('');
+      }
+      function openEmojiPop(iid, btn) {
+        if (!emojiPop) {
+          emojiPop = document.createElement('div');
+          emojiPop.id = 'cv-emoji-pop'; emojiPop.hidden = true;
+          document.body.appendChild(emojiPop);
+          emojiPop.addEventListener('click', (e) => {
+            const b = e.target.closest('[data-emoji]'); if (!b) return;
+            const it = findInstance(emojiPopIid); if (!it) return;
+            const cur = Array.isArray(it.emojis) ? it.emojis.slice() : [];
+            const i = cur.indexOf(b.dataset.emoji);
+            if (i >= 0) cur.splice(i, 1); else cur.push(b.dataset.emoji);
+            setInstanceEmojis(emojiPopIid, cur);
+            renderEmojiPop();
+          });
+        }
+        if (emojiPopIid === iid && !emojiPop.hidden) { emojiPop.hidden = true; emojiPopIid = null; return; }
+        emojiPopIid = iid; renderEmojiPop();
+        const r = btn.getBoundingClientRect();
+        emojiPop.hidden = false;
+        emojiPop.style.top = (r.bottom + 4) + 'px';
+        emojiPop.style.left = Math.max(6, Math.min(r.left, window.innerWidth - 230)) + 'px';
+      }
+      document.addEventListener('click', (e) => {
+        if (emojiPop && !emojiPop.hidden && !emojiPop.contains(e.target) && !e.target.closest('.cv-caddy-emoji-btn')) {
+          emojiPop.hidden = true; emojiPopIid = null;
+        }
+      });
 
       // 📚 Banque de séances : clic = ajoute le rapido comme MISSION (toutes
       // variantes cochées). Cumulable, ne détruit rien.
