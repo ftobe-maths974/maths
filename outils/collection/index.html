@@ -564,7 +564,8 @@ const rapidoPresets = [{"name":"Rapido 1","items":[{"ref":"cycle3/01-nombres-et-
       // ⚡ Lancer la projection classe/prof direct (mode rapido) dans un nouvel
       // onglet → idéal vidéoprojecteur (la page classe gère sa propre UI/sortie).
       document.getElementById('cv-caddy-classe').addEventListener('click', () => {
-        window.open(caddyUrl + '?mode=classe', '_blank', 'noopener');
+        // from=collection → le ✕ de la projection revient à la collection.
+        window.open(caddyUrl + '?mode=classe&from=collection', '_blank', 'noopener');
       });
 
       // 🗑 vider tout le caddy
