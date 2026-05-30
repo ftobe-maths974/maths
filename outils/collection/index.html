@@ -524,15 +524,23 @@ const caddyMeta = {"3e-dnb/04-donnees-probabilites/19-statistiques/191-effectifs
         if (a4View.hidden) return;
         clearTimeout(a4ReloadT);
         a4ReloadT = setTimeout(() => {
+          // reload() conserve l'URL courante (donc per/page/fs/ratio/marges) ;
+          // fallback : reconstruit l'URL complète via loadA4Page.
           try { a4Frame.contentWindow.location.reload(); }
-          catch { a4Frame.src = caddyUrl + '?mode=classe&per=' + A4_PER + '&page=' + a4Page; }
+          catch { loadA4Page(a4Page); }
         }, 400);
       }
-      // L'iframe caddy écrit CART_KEY (maths974-automaths-cart) → storage event
-      // sur le parent → on rafraîchit l'aperçu A4 ET le mini-caddy du sidebar.
+      // Deux sources de changement du caddy :
+      //  • l'iframe caddy (webFrame) écrit localStorage → `storage` event sur le
+      //    parent (les storage events ne se déclenchent PAS dans le document qui
+      //    a écrit, donc seul le parent les reçoit) ;
+      //  • le mini-caddy / 🎲 / d&d du sidebar écrit dans CE document → pas de
+      //    storage event ici, mais writeMissions dispatche `cart:change`.
+      // On rafraîchit l'aperçu A4 dans les deux cas.
       window.addEventListener('storage', (e) => {
         if (e.key === MISSIONS_KEY || e.key === CART_KEY || e.key === null) { refreshA4(); renderCaddy(); }
       });
+      window.addEventListener('cart:change', () => { refreshA4(); });
 
       document.getElementById('cv-print').addEventListener('click', () => {
         try { a4Frame.contentWindow.focus(); a4Frame.contentWindow.print(); }

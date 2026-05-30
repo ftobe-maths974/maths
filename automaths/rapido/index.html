@@ -47,7 +47,11 @@
       // réglage live (police, ratio énoncé/visuel).
       if (parseInt(_p.get('per') || '0', 10) > 0) {
         document.body.classList.add('a4-print');
-        const r = document.documentElement;
+        // ⚠️ Poser les vars sur <body> (PAS <html>) : la règle CSS
+        // `body.a4-print { --a4-mt: …; --a4-font-scale: … }` DÉCLARE ces vars
+        // sur body → une valeur héritée de <html> serait masquée. Le style
+        // inline de body, lui, bat la feuille de style.
+        const r = document.body;
         const setVar = (name, v) => { if (Number.isFinite(v)) r.style.setProperty(name, String(v)); };
         const fs = parseFloat(_p.get('fs')  || '');
         const cr = parseFloat(_p.get('ratio') || '');
