@@ -148,10 +148,17 @@ const caddyMeta = {"3e-dnb/04-donnees-probabilites/19-statistiques/191-effectifs
         a4PgPrev.disabled = a4Page <= 0;
         a4PgNext.disabled = a4Page >= a4Pages - 1;
       }
+      // Estimation rapide du nb de pages depuis le caddy (avant que l'iframe
+      // confirme via postMessage cv-a4-pages) → la nav apparaît tout de suite.
+      function a4FlatTotal() {
+        try { return readMissions().reduce((n, m) => n + ((m.items || []).length), 0); }
+        catch { return 0; }
+      }
       function loadA4Page(p) {
-        a4Page = p;
+        a4Pages = Math.max(1, Math.ceil(a4FlatTotal() / A4_PER));
+        a4Page = Math.min(Math.max(0, p), a4Pages - 1);
         // Réglages dans l'URL → préservés au rechargement (nav de page, refresh live).
-        a4Frame.src = caddyUrl + '?mode=classe&per=' + A4_PER + '&page=' + p
+        a4Frame.src = caddyUrl + '?mode=classe&per=' + A4_PER + '&page=' + a4Page
           + '&fs=' + a4Fs + '&ratio=' + a4Ratio
           + '&mt=' + a4M.t + '&mr=' + a4M.r + '&mb=' + a4M.b + '&ml=' + a4M.l;
         updateA4Nav();
