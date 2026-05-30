@@ -154,18 +154,30 @@ const caddyMeta = {"3e-dnb/04-donnees-probabilites/19-statistiques/191-effectifs
         try { return readMissions().reduce((n, m) => n + ((m.items || []).length), 0); }
         catch { return 0; }
       }
-      function loadA4Page(p) {
-        a4Pages = Math.max(1, Math.ceil(a4FlatTotal() / A4_PER));
-        a4Page = Math.min(Math.max(0, p), a4Pages - 1);
-        // Réglages dans l'URL → préservés au rechargement (nav de page, refresh live).
-        a4Frame.src = caddyUrl + '?mode=classe&per=' + A4_PER + '&page=' + a4Page
+      function a4SrcUrl() {
+        // Réglages dans l'URL → lus par rapido au (re)chargement. PAS de `page` :
+        // le doc rend TOUTES les feuilles, le pager défile (postMessage a4-goto).
+        return caddyUrl + '?mode=classe&per=' + A4_PER
           + '&fs=' + a4Fs + '&ratio=' + a4Ratio
           + '&mt=' + a4M.t + '&mr=' + a4M.r + '&mb=' + a4M.b + '&ml=' + a4M.l;
+      }
+      // (Re)charge le document A4 complet (toutes les feuilles) et revient en
+      // tête. Le nb de pages réel est confirmé ensuite par cv-a4-pages.
+      function loadA4() {
+        a4Page = 0;
+        a4Pages = Math.max(1, Math.ceil(a4FlatTotal() / A4_PER));
+        a4Frame.src = a4SrcUrl();
         updateA4Nav();
         fitA4();
       }
-      a4PgPrev.addEventListener('click', () => { if (a4Page > 0) loadA4Page(a4Page - 1); });
-      a4PgNext.addEventListener('click', () => { if (a4Page < a4Pages - 1) loadA4Page(a4Page + 1); });
+      // Défile jusqu'à la feuille N (sans recharger).
+      function gotoSheet(n) {
+        a4Page = Math.min(Math.max(0, n), a4Pages - 1);
+        try { a4Frame.contentWindow?.postMessage({ type: 'a4-goto', sheet: a4Page }, '*'); } catch {}
+        updateA4Nav();
+      }
+      a4PgPrev.addEventListener('click', () => gotoSheet(a4Page - 1));
+      a4PgNext.addEventListener('click', () => gotoSheet(a4Page + 1));
 
       // Zoom 100 % ↔ ajusté. Commande principale = bouton 🔍 (mobile-friendly).
       // Ctrl/Cmd+R est AUSSI intercepté, mais SEULEMENT quand l'aperçu A4 est
@@ -264,8 +276,7 @@ const caddyMeta = {"3e-dnb/04-donnees-probabilites/19-statistiques/191-effectifs
 
       // 🖨️ (barre aperçu) → vue print preview (A4 + webapp côte à côte).
       document.getElementById('cv-a4-btn').addEventListener('click', () => {
-        a4Pages = 1;
-        loadA4Page(0);
+        loadA4();
         webFrame.src = caddyUrl;
         showView('a4');
         requestAnimationFrame(fitA4);   // après l'affichage de la vue (clientWidth connu)
@@ -554,7 +565,7 @@ const caddyMeta = {"3e-dnb/04-donnees-probabilites/19-statistiques/191-effectifs
           // reload() conserve l'URL courante (donc per/page/fs/ratio/marges) ;
           // fallback : reconstruit l'URL complète via loadA4Page.
           try { a4Frame.contentWindow.location.reload(); }
-          catch { loadA4Page(a4Page); }
+          catch { loadA4(); }
         }, 400);
       }
       // Deux sources de changement du caddy :
