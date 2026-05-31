@@ -274,6 +274,8 @@ const rapidoPresets = [{"name":"Rapido 1","items":[{"ref":"cycle3/01-nombres-et-
         }
         // La page embarquée (eleve/rapido) a fini de rendre → on révèle l'iframe.
         if (e?.data?.type === 'am-ready') { clearTimeout(window.__ficheRevealT); revealFiche(); }
+        // L'iframe (« + » depuis vue élève/prof) a modifié le caddy → re-render sidebar.
+        if (e?.data?.type === 'cv-caddy-changed') { try { renderCaddy(); } catch {} }
         // Total de pages A4 renvoyé par l'aperçu (rapido en ?mode=classe&per=…).
         if (e?.data?.type === 'cv-a4-pages') {
           a4Pages = Math.max(1, e.data.pages | 0);
