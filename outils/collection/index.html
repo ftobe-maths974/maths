@@ -228,6 +228,11 @@ const rapidoPresets = [{"name":"Rapido 1","items":[{"ref":"cycle3/01-nombres-et-
           // aperçus A4/webapp sont déchargés.
           a4Frame.src = 'about:blank';
           webFrame.src = 'about:blank';
+          // BUG « 3ᵉ clic = écran blanc » : on déchargeait les iframes mais
+          // `a4Inited` restait true → la ré-ouverture skippait le rechargement
+          // (iframes vides). On le remet à false → ensureA4Loaded recharge (les
+          // graines persistées redonnent les mêmes valeurs, pas de re-tirage).
+          a4Inited = false;
         }
       }
 
