@@ -234,10 +234,21 @@ const rapidoPresets = [{"name":"Rapido 1","items":[{"ref":"cycle3/01-nombres-et-
       // Deux portes par carte (le corps ne navigue plus) : 🛠️ Prof = caddy
       // (compose) en aperçu iframe ; 👤 Élève = page élève en aperçu iframe.
       const eleveUrl = caddyUrl.replace('rapido/', 'eleve/');
+      // Révèle l'iframe (fin du masquage de chargement). Idempotent.
+      const revealFiche = () => {
+        fiche.style.transition = 'opacity .15s ease';
+        fiche.style.opacity = '1';
+      };
       function previewInIframe(url, title) {
+        // Masque l'iframe pendant le chargement → on n'affiche que quand la page
+        // embarquée (eleve/rapido) signale `am-ready` (moteur rendu). Filet de
+        // sécurité : on révèle au plus tard après 2,5 s même sans message.
+        fiche.style.opacity = '0';
         fiche.src = url; ficheOpen.href = url;
         ficheTitle.textContent = title || '';
         showView('iframe');
+        clearTimeout(window.__ficheRevealT);
+        window.__ficheRevealT = setTimeout(revealFiche, 2500);
       }
       document.querySelectorAll('.cv-card-prof').forEach((btn) => {
         btn.addEventListener('click', (e) => {
@@ -270,6 +281,8 @@ const rapidoPresets = [{"name":"Rapido 1","items":[{"ref":"cycle3/01-nombres-et-
         if (e?.data?.type === 'cv-close-fiche' || e?.data?.type === 'cv-show-grid') {
           showView('grid');
         }
+        // La page embarquée (eleve/rapido) a fini de rendre → on révèle l'iframe.
+        if (e?.data?.type === 'am-ready') { clearTimeout(window.__ficheRevealT); revealFiche(); }
         // Total de pages A4 renvoyé par l'aperçu (rapido en ?mode=classe&per=…).
         if (e?.data?.type === 'cv-a4-pages') {
           a4Pages = Math.max(1, e.data.pages | 0);
