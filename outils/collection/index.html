@@ -281,6 +281,15 @@ const rapidoPresets = [{"name":"Rapido 1","items":[{"ref":"cycle3/01-nombres-et-
         if (e?.data?.type === 'am-ready') { clearTimeout(window.__ficheRevealT); revealFiche(); }
         // L'iframe (« + » depuis vue élève/prof) a modifié le caddy → re-render sidebar.
         if (e?.data?.type === 'cv-caddy-changed') { try { renderCaddy(); } catch {} }
+        // Un layout de clones a changé (itérations / colonnes / split) dans le
+        // caddy webapp → recharge l'aperçu A4 s'il est ouvert (débouncé). Les
+        // valeurs sont persistées (localStorage) → l'A4 les relit au reload.
+        if (e?.data?.type === 'cv-pdf-refresh') {
+          clearTimeout(window.__pdfRefreshT);
+          window.__pdfRefreshT = setTimeout(() => {
+            if (!a4View.hidden) { try { a4Frame.contentWindow.location.reload(); } catch { loadA4(); } }
+          }, 450);
+        }
         // Total de pages A4 renvoyé par l'aperçu (rapido en ?mode=classe&per=…).
         if (e?.data?.type === 'cv-a4-pages') {
           a4Pages = Math.max(1, e.data.pages | 0);
