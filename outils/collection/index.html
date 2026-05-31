@@ -282,13 +282,16 @@ const rapidoPresets = [{"name":"Rapido 1","items":[{"ref":"cycle3/01-nombres-et-
         // L'iframe (« + » depuis vue élève/prof) a modifié le caddy → re-render sidebar.
         if (e?.data?.type === 'cv-caddy-changed') { try { renderCaddy(); } catch {} }
         // Un layout de clones a changé (itérations / colonnes / split) dans le
-        // caddy webapp → recharge l'aperçu A4 s'il est ouvert (débouncé). Les
-        // valeurs sont persistées (localStorage) → l'A4 les relit au reload.
+        // caddy webapp → l'aperçu A4 ré-applique le layout EN PLACE (re-render
+        // ciblé, PAS de reload d'iframe → fluide). Les valeurs sont persistées
+        // (localStorage) → l'A4 les relit. Fallback reload si le postMessage rate.
         if (e?.data?.type === 'cv-pdf-refresh') {
           clearTimeout(window.__pdfRefreshT);
           window.__pdfRefreshT = setTimeout(() => {
-            if (!a4View.hidden) { try { a4Frame.contentWindow.location.reload(); } catch { loadA4(); } }
-          }, 450);
+            if (a4View.hidden) return;
+            try { a4Frame.contentWindow.postMessage({ type: 'cv-apply-iterations' }, '*'); }
+            catch { try { a4Frame.contentWindow.location.reload(); } catch { loadA4(); } }
+          }, 250);
         }
         // Total de pages A4 renvoyé par l'aperçu (rapido en ?mode=classe&per=…).
         if (e?.data?.type === 'cv-a4-pages') {
