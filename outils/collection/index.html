@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="fr"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Collection automaths — Maths974</title><link rel="stylesheet" href="/maths/_astro/collection.Bd1d-VsL.css"><script type="module" src="/maths/_astro/hoisted.DgcRKtN3.js"></script></head> <body> <script>
+<!DOCTYPE html><html lang="fr"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Collection automaths — Maths974</title><link rel="stylesheet" href="/maths/_astro/collection.CD8xlXs6.css"><script type="module" src="/maths/_astro/hoisted.DgcRKtN3.js"></script></head> <body> <script>
     /* Sidebar masquée seulement si l'utilisateur l'avait repliée
        (posé avant le paint pour éviter le flash). */
     if (localStorage.getItem('cv-nav') === 'hidden') document.body.classList.add('sidebar-hidden');
@@ -405,6 +405,7 @@ const rapidoPresets = [{"name":"Rapido 1","items":[{"ref":"cycle3/01-nombres-et-
           <span class="cv-caddy-emojis" title="Émojis pédagogiques">${emo}</span>
           <span class="cv-caddy-nb">${nb}v</span>
           <button type="button" class="cv-caddy-emoji-btn" title="Émojis pédagogiques (calculatrice, outils…)" aria-label="Émojis">🏷️</button>
+          <button type="button" class="cv-caddy-regen" title="Régénérer (nouveau tirage) ce calque" aria-label="Régénérer le calque">⟳</button>
           <button type="button" class="cv-caddy-dup" title="Dupliquer ce calque" aria-label="Dupliquer le calque">⧉</button>
           <button type="button" class="cv-caddy-edit" title="Éditer (checkboxes)" aria-label="Éditer">✏️</button>
           <button type="button" class="cv-caddy-del" title="Retirer" aria-label="Retirer">✕</button>
@@ -466,6 +467,19 @@ const rapidoPresets = [{"name":"Rapido 1","items":[{"ref":"cycle3/01-nombres-et-
             }
           }
           writeMissions(missions); renderCaddy();
+          return;
+        }
+        // ⟳ Régénérer CE calque : efface ses graines (rapido-seeds) → nouveau
+        // tirage au prochain rendu, puis recharge l'aperçu.
+        if (e.target.closest('.cv-caddy-regen')) {
+          try {
+            const SK = 'maths974-rapido-seeds';
+            const store = JSON.parse(localStorage.getItem(SK) || '{}');
+            for (const k of Object.keys(store)) if (k.startsWith(iid + '::')) delete store[k];
+            localStorage.setItem(SK, JSON.stringify(store));
+          } catch {}
+          if (!iframeView.hidden) { try { fiche.contentWindow.location.reload(); } catch {} }
+          try { refreshA4(true); } catch {}
           return;
         }
         // 🏷️ → palette d'émojis pédagogiques (n'ouvre PAS la vue caddy).
