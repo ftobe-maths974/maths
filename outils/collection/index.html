@@ -472,6 +472,9 @@ const rapidoPresets = [{"name":"Rapido 1","items":[{"ref":"cycle3/01-nombres-et-
         try { fiche.contentWindow.postMessage({ type: 'cv-dev-overlay', on }, '*'); } catch {}
       }
       devBtns.forEach(b => b.addEventListener('click', toggleDev));
+      // Re-synchro si le flag change dans un AUTRE onglet (instance élève/rapido
+      // qui togglerait l'overlay) → évite que l'état visuel des boutons mente.
+      window.addEventListener('storage', (e) => { if (e.key === 'am-dev-overlay') syncDevBtns(); });
       syncDevBtns();
 
       // 🏷️ Émojis pédagogiques par calque : palette flottante, toggle on/off.
