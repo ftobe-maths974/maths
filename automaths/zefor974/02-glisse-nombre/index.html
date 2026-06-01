@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="fr" data-astro-cid-skaskwd2> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Zefor n°2 — Multiplier / diviser par 10 ; 100 ; 1000 — Automaths 6e</title><link rel="icon" type="image/svg+xml" href="/maths/favicon.svg"><link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css"><script>
+    window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, svg: { fontCache: 'global' } };
+    // Tab du clavier : MathJax pose tabindex="0" sur des sous-éléments des
+    // formules → le focus atterrissait sur la formule entre 2 inputs au lieu
+    // de l'input suivant. Intercept direct : si on Tab depuis un .rapido-input,
+    // on force le focus vers l'input rapido précédent/suivant de la variante
+    // active (boucle aux extrémités). Shift+Tab = recule.
+    //
+    // Scope : tous les .rapido-input de la carte SAUF ceux d'une variante
+    // inactive. Couvre aussi les visuels position:content (ex. texte-trous)
+    // dont les inputs sont montés dans .q-content-visual (frère, pas enfant,
+    // de .variant-content) — un sélecteur `.variant-content.active …` les
+    // raterait.
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Tab' || e.altKey || e.ctrlKey || e.metaKey) return;
+      const active = document.activeElement;
+      if (!active || !active.classList.contains('rapido-input')) return;
+      const card = active.closest('.q-card');
+      if (!card) return;
+      const inputs = [...card.querySelectorAll('.rapido-input')]
+        .filter(el => !el.closest('.variant-content:not(.active)'));
+      const idx = inputs.indexOf(active);
+      if (idx < 0) return;
+      e.preventDefault();
+      const step = e.shiftKey ? -1 : 1;
+      const len  = inputs.length;
+      const next = inputs[((idx + step) % len + len) % len];
+      if (next === active) {
+        // Cas single-input dans la carte (ex. visuel Zefor avec schéma replié) :
+        // la « boucle » pointe sur soi-même → pas de focus change → pas de blur
+        // → pas de validation. On force blur() pour déclencher wireCardInputs.
+        active.blur();
+      } else {
+        next?.focus();
+      }
+    });
+  </script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js" defer></script><link rel="stylesheet" href="/maths/_astro/_slug_.B88VlB9f.css">
+<link rel="stylesheet" href="/maths/_astro/_slug_.DiC4sU2E.css">
+<link rel="stylesheet" href="/maths/_astro/_slug_.C8b6vyGW.css">
+<style>.am-body[data-astro-cid-skaskwd2]{margin:0;height:100vh;width:100vw;overflow:hidden;font-family:var(--font-sans)!important;color:#1e293b;background:linear-gradient(to bottom,#dc2626,#fca5a5);position:relative}h1[data-astro-cid-skaskwd2],h2[data-astro-cid-skaskwd2],button[data-astro-cid-skaskwd2]{font-family:var(--font-sans)!important}.am-host[data-astro-cid-skaskwd2]{height:100%}.gs-overlay[data-astro-cid-skaskwd2]{position:fixed;inset:0;width:100vw;height:100vh;max-width:100vw;max-height:100vh;margin:0;border:none;padding:0;background:#000000a6;align-items:center;justify-content:center;backdrop-filter:blur(4px)}.gs-overlay[data-astro-cid-skaskwd2][open]{display:flex}.gs-overlay[data-astro-cid-skaskwd2]::backdrop{background:#0000004d}.gs-overlay-inner[data-astro-cid-skaskwd2]{background:#fff;border-radius:1.5rem;padding:1.5rem 1.5rem 1rem;width:88vw;max-width:88vw;max-height:90vh;overflow:auto;box-shadow:0 25px 60px #00000073;position:relative;min-width:260px}.gs-overlay-header[data-astro-cid-skaskwd2]{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;gap:1rem}.gs-overlay-title[data-astro-cid-skaskwd2]{font-size:.95rem;font-weight:800;color:#0f766e;text-transform:uppercase;letter-spacing:.05em}.gs-overlay-close[data-astro-cid-skaskwd2]{background:#f1f5f9;border:none;border-radius:50%;width:2rem;height:2rem;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#475569;transition:background .15s;flex-shrink:0}.gs-overlay-close[data-astro-cid-skaskwd2]:hover{background:#e2e8f0}.gs-overlay-canvas-wrap[data-astro-cid-skaskwd2]{position:relative}.gs-overlay-canvas[data-astro-cid-skaskwd2]{display:block;max-width:100%;height:auto}.gs-overlay-loading[data-astro-cid-skaskwd2]{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:.875rem}.gs-overlay-loading[data-astro-cid-skaskwd2].hidden{display:none}
+</style><script type="module" src="/maths/_astro/hoisted.kaee-cVj.js"></script></head> <body class="am-body" data-astro-cid-skaskwd2> <div class="am-host" id="am-host" data-astro-cid-skaskwd2></div> <!-- Overlay Guide de Survie --> <dialog id="gs-overlay" class="gs-overlay" data-astro-cid-skaskwd2> <div class="gs-overlay-inner" data-astro-cid-skaskwd2> <div class="gs-overlay-header" data-astro-cid-skaskwd2> <div class="gs-overlay-title" id="gs-overlay-title" data-astro-cid-skaskwd2></div> <button class="gs-overlay-close" data-close aria-label="Fermer" data-astro-cid-skaskwd2>✕</button> </div> <div class="gs-overlay-canvas-wrap" data-astro-cid-skaskwd2> <canvas class="gs-overlay-canvas" id="gs-overlay-canvas" data-astro-cid-skaskwd2></canvas> <div class="gs-overlay-loading" id="gs-overlay-loading" data-astro-cid-skaskwd2>Chargement…</div> </div> </div> </dialog> <script>(function(){const question = {"variantes":[{"id":"frag-x10-entiers","niveau":"fragile","groupe":1,"content":"Calcule : **[=n] [=dir>0?'×':'÷'] [k] = ?**","type":"glisse-nombre-zefor","rand":{"op":"×","k":"10","n":"12..98"}},{"id":"frag-x10-x100-entiers","niveau":"fragile","groupe":1,"content":"Calcule : **[=n] [=dir>0?'×':'÷'] [k] = ?**","type":"glisse-nombre-zefor","rand":{"op":"×","k":"10,100","n":"12..99"}},{"id":"satisf-xdiv-entiers","niveau":"satisfaisant","groupe":2,"content":"Calcule : **[=n] [=dir>0?'×':'÷'] [k] = ?**","type":"glisse-nombre-zefor","rand":{"op":"×,÷","k":"10,100","n":"120..9900"}},{"id":"satisf-decimaux","niveau":"satisfaisant","groupe":2,"content":"Calcule : **[=n] [=dir>0?'×':'÷'] [k] = ?**","type":"glisse-nombre-zefor","rand":{"op":"×,÷","k":"10,100","decimal":true,"mant":"105..995","dec":"1,2"}},{"id":"ts-decimaux-complexes","niveau":"tres-satisfaisant","groupe":3,"content":"Calcule : **[=n] [=dir>0?'×':'÷'] [k] = ?**","type":"glisse-nombre-zefor","rand":{"op":"×,÷","k":"10,100,1000","decimal":true,"mant":"1005..9995","dec":"2,3"}}],"gs":"GS 3.11","gs_bonus":"GS 3.12","theme":"Nombres et calculs","ref":"02-glisse-nombre","isZefor":true};
+const title = "Zefor n°2 — Multiplier / diviser par 10 ; 100 ; 1000";
+const gsPdfData = {"GS 3.11":{"title":"3.11 Multiplier par 10 ; 100 ; 1000","pdfUrl":"/maths/pdf/guide-survie-c3.pdf","cycle":"c3","_priority":2,"page":11,"x":0,"y":165,"w":450,"h":100},"GS 3.12":{"title":"3.12 Diviser par 10 ; 100 ; 1000","pdfUrl":"/maths/pdf/guide-survie-c3.pdf","cycle":"c3","_priority":2,"page":11,"x":0,"y":272,"w":450,"h":105}};
+const base = "/maths";
+const parentUrl = "/maths/outils/collection/?cycle=Zefor";
+
+    window.__AM_QUESTION__ = question;
+    window.__AM_TITLE__    = title;
+    window.__GS_PDF_DATA__ = gsPdfData;
+    window.__BASE_URL__    = base;
+    window.__PARENT_URL__  = parentUrl;
+  })();</script>  </body> </html>
