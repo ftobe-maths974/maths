@@ -57,13 +57,13 @@
        boutons FS, checkboxes prof, header classe-mode…) ne MATCHENT pas
        les sélecteurs, donc le styling ne s'applique pas (panneau invisible,
        etc.). Les classes utilisées (caddy-*, classe-*, prof-*) sont
-       page-spécifiques → pas de risque de fuite globale. --><link rel="stylesheet" href="/_astro/_slug_.BruBkqVY.css">
-<link rel="stylesheet" href="/_astro/_slug_.cXu7kuXz.css">
+       page-spécifiques → pas de risque de fuite globale. --><link rel="stylesheet" href="/_astro/_slug_.BABvLbGh.css">
+<link rel="stylesheet" href="/_astro/_slug_.BxAwxUH8.css">
 <link rel="stylesheet" href="/_astro/eleve.DA83t844.css">
 <link rel="stylesheet" href="/_astro/_slug_.CYo8mcNt.css">
 <style>.rapido-body{margin:0;height:100vh;width:100%;overflow:hidden;font-family:var(--font-sans)!important;color:#1e293b;background:#fff;position:relative}.bg-curves{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:1;opacity:.18;pointer-events:none}@media print{@page{size:A4 portrait;margin:.3cm .5cm}.bg-curves,.deco-volcan-wrapper,.deco-margouillat,.classe-deco-volcan-wrapper{display:none!important}.frise-lambrequin,.classe-frise{print-color-adjust:exact!important;-webkit-print-color-adjust:exact!important;background-color:transparent!important}.rapido-body,.caddy-body{background:#fff!important;height:auto!important;overflow:visible!important;color:#000!important}.rapido-body header,.classe-header{background:#fff!important;box-shadow:none!important;margin:0!important;padding:0!important}.rapido-body h1,.classe-title-wrapper h1{color:#000!important;text-shadow:none!important;font-size:1rem!important}.rapido-badge,.back-btn,.rapido-breadcrumb,.rapido-pagination,.rapido-toolbar,.classe-toolbar,.main-navbar{display:none!important}.rapido-container{padding:0!important;height:auto!important}.questions-grid,.caddy-host{display:grid!important;grid-template-columns:1fr 1fr!important;grid-template-rows:auto!important;grid-auto-rows:auto!important;gap:.25cm!important;height:auto!important}.q-card.has-visual-west,.q-card.has-visual-east{grid-template-columns:1fr!important;grid-template-areas:"header" "north" "content" "west" "east" "south"!important}.q-card{--q-text-size: .85rem !important;--vis-max-h: 3.5cm !important;background:#fff!important;border:1px solid #94a3b8!important;box-shadow:none!important;backdrop-filter:none!important;padding:.15cm!important;break-inside:avoid;page-break-inside:avoid}.q-card[data-theme=resolution-de-problemes]{background:#fff!important;border-color:#94a3b8!important;color:#000!important}.q-card[data-theme=resolution-de-problemes] .content,.q-card[data-theme=resolution-de-problemes] .sa-projected-text,.q-card[data-theme=resolution-de-problemes] .sm-projected-text,.q-card[data-theme=resolution-de-problemes] .sa-text,.q-card[data-theme=resolution-de-problemes] .sm-text{color:#000!important}.q-card[data-theme=resolution-de-problemes] math974-schema-additif>svg,.q-card[data-theme=resolution-de-problemes] math974-schema-multiplicatif>svg{background:transparent!important;padding:0!important}.bullets-nav,.card-actions-right,.card-actions-nav,.btn-play,.btn-thunder,.visual-toggle-btn,.arcade-1up-btn,.q-num,.rapido-fs-stage,.rapido-fs-bar,.rapido-fs-frise{display:none!important}.q-card.q-card--fs{position:static!important;inset:auto!important}}
 </style>
-<link rel="stylesheet" href="/_astro/rapido.B9PrxD1q.css"><script type="module" src="/_astro/hoisted.DuR4rD9R.js"></script></head> <body class="rapido-body caddy-body"> <!-- Courbes en filigrane (même que rapido statique). Toujours affichées —
+<link rel="stylesheet" href="/_astro/rapido.C_WND28h.css"><script type="module" src="/_astro/hoisted.CZ3KBByn.js"></script></head> <body class="rapido-body caddy-body"> <!-- Courbes en filigrane (même que rapido statique). Toujours affichées —
        en vue caddy/édition elles tapissent le fond rouge entre la frise et
        la carte ; en classe-mode elles tapissent la grille 2×3. --> <img src="/images/curves.svg" alt="" class="bg-curves"> <!-- Le bouton ✕ « quitter projection » vit dans la `.classe-toolbar`
        (à l'intérieur du `.classe-header` rouge) — cf. plus bas. --> <!-- Container projection (classe-mode) : header « Rapido prof » + volcan
@@ -126,6 +126,42 @@
           const sheets = document.querySelectorAll('.a4-sheet');
           sheets[e.data.sheet]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
+        // Mode Hebdomaths (`&hebdo=1`) : un clic sur une carte signale son iid au
+        // parent → re-tirage CIBLÉ de cet exo/clone (cf. Hebdomaths). On ignore
+        // les liens/champs (QR, inputs). Le curseur devient main (CSS hebdo-pick).
+        if (_p.get('hebdo')) {
+          document.body.classList.add('hebdo-pick');
+          document.addEventListener('click', (ev) => {
+            if (ev.target.closest('a, button, input, select, .a4-qr')) return;
+            const iid = ev.target.closest('.q-card')?.dataset?.iid;
+            if (iid) { try { window.parent?.postMessage({ type: 'hebdo-pick', iid }, '*'); } catch {} }
+          });
+          // INJECTION LIVE des réglages VISUELS (Hebdomaths) — zoom texte/figure,
+          // 2-col, colonnes — SANS recharger l'iframe. On cible les cartes par iid
+          // et on re-applique l'échelle figure (cf. fig-zoom-slider : _autoScaleMeasure).
+          window.addEventListener('message', (e) => {
+            if (e?.data?.type !== 'hebdo-style') return;
+            const d = e.data;
+            (d.iids || []).forEach((iid) => {
+              const sel = '.q-card[data-iid="' + (window.CSS?.escape ? CSS.escape(iid) : iid) + '"]';
+              const card = document.querySelector(sel);
+              if (!card) return;
+              if (d.visZoom !== 100) card.style.setProperty('--vis-zoom', String(d.visZoom / 100)); else card.style.removeProperty('--vis-zoom');
+              if (d.textZoom !== 100) card.style.setProperty('--q-text-scale', String(d.textZoom / 100)); else card.style.removeProperty('--q-text-scale');
+              card.classList.toggle('zef-2col', !!d.col2);
+              const av = card.querySelector('.variant-content.active');
+              if (av) { if (d.cols >= 1 && d.cols <= 3) av.dataset.cols = String(d.cols); else delete av.dataset.cols; }
+              // Mode AG : les colonnes vivent sur la grille .clone-units (inline).
+              const units = av?.querySelector(':scope > .clone-units');
+              if (units) {
+                const nu = units.children.length;
+                const nc = (d.cols >= 1 && d.cols <= 3) ? d.cols : Math.min(nu, 3);
+                units.style.gridTemplateColumns = 'repeat(' + nc + ', 1fr)';
+              }
+              card.querySelectorAll('*').forEach((el) => el._autoScaleMeasure?.());
+            });
+          });
+        }
         // Ctrl/Cmd+R alors que le focus est DANS l'aperçu A4 → on relaie au
         // parent (collection) pour basculer le zoom, au lieu de recharger.
         window.addEventListener('keydown', (ev) => {
