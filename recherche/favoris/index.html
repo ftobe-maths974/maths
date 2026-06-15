@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="fr"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Favoris & Historique - Maths974</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.BABvLbGh.css"><script type="module" src="/_astro/hoisted.CABNSyVN.js"></script></head> <body> <nav class="main-navbar no-print"> <div class="navbar-content">  <button type="button" class="btn-icon navbar-fs-btn" id="navFsBtn" aria-label="Plein écran" title="Plein écran">⛶</button> <a href="/" class="brand" aria-label="Accueil Maths974"> <img src="/images/logo.svg" alt="Maths974" class="logo-icon"> </a> <nav class="navbar-breadcrumb" aria-label="Fil d'ariane"> <ol> <li><a href="/">Accueil</a></li>   <li class="separator">/</li> <li class="current" aria-current="page">Favoris</li>  </ol> </nav> <div class="navbar-spacer"></div>  <a href="/automaths/rapido/" class="btn-icon nav-cart-btn" aria-label="Ouvrir le caddy automaths" title="Mon caddy automaths">
+<!DOCTYPE html><html lang="fr"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Favoris & Historique - Maths974</title><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="stylesheet" href="/_astro/_slug_.BABvLbGh.css"><script type="module" src="/_astro/hoisted.CABNSyVN.js"></script></head> <body> <nav class="main-navbar no-print"> <div class="navbar-content">  <button type="button" class="btn-icon navbar-fs-btn" id="navFsBtn" aria-label="Plein écran" title="Plein écran">⛶</button> <a href="/" class="brand" aria-label="Accueil Maths974"> <img src="/images/logo.svg" alt="Maths974" class="logo-icon"> </a> <nav class="navbar-breadcrumb" aria-label="Fil d'ariane"> <ol> <li><a href="/">Accueil</a></li>   <li class="separator">/</li> <li class="current" aria-current="page">Favoris</li>  </ol> </nav> <div class="navbar-spacer"></div>  <a href="/outils/collection/" class="btn-icon nav-cart-btn" aria-label="Ouvrir le caddy automaths" title="Mon caddy automaths">
 🛒
 <span id="nav-cart-count" class="nav-cart-count" hidden></span> </a> <a href="/automaths/rapido/?mode=classe" class="btn-icon nav-zeclair-btn" aria-label="Lancer le caddy en mode rapido-prof" title="⚡ Lancer le rapido-prof — projection des fiches du caddy">
 ⚡
@@ -20,9 +20,13 @@
 </button> </div> </div> </div> </nav> <script>
   (function() {
     const body  = document.body;
-    const btn   = document.getElementById('navHamburger');
-    const menu  = document.getElementById('navMenu');
-    const modes = document.querySelectorAll('.menu-item-mode[data-mode]');
+    // Éléments de la navbar RE-CRÉÉS à chaque navigation ViewTransitions → on
+    // les relit à la demande (getters) au lieu de les capturer une fois (sinon
+    // références périmées après un swap → menu/format/⛶ morts). cf. wireNavbar.
+    const $btn   = () => document.getElementById('navHamburger');
+    const $menu  = () => document.getElementById('navMenu');
+    const $modes = () => document.querySelectorAll('.menu-item-mode[data-mode]');
+    const $fsBtn = () => document.getElementById('navFsBtn');
 
     // ── Mode d'affichage (persisté) ───────────────────────────────────────
     const savedMode = localStorage.getItem('maths974-display-mode') || 'screen';
@@ -46,20 +50,14 @@
     function setMode(mode) {
       body.setAttribute('data-layout-mode', mode);
       localStorage.setItem('maths974-display-mode', mode);
-      modes.forEach(opt => opt.classList.toggle('active', opt.dataset.mode === mode));
+      $modes().forEach(opt => opt.classList.toggle('active', opt.dataset.mode === mode));
       updatePrintPageSize(mode);
     }
-
-    modes.forEach(opt => opt.addEventListener('click', () => {
-      setMode(opt.dataset.mode);
-      toggleMenu(false);
-    }));
 
     // ── Bouton plein écran (smartphone) ───────────────────────────────────
     // Bascule le fullscreen natif. Best-effort : iOS Safari ne supporte pas
     // requestFullscreen sur un élément non-vidéo → le bouton reste sans effet
     // là-bas (acceptable), mais marche sur Android/Chrome/PWA.
-    const fsBtn = document.getElementById('navFsBtn');
     const fsEl  = document.documentElement;
     const isFs  = () => document.fullscreenElement || document.webkitFullscreenElement;
     function toggleFs() {
@@ -72,39 +70,67 @@
       } catch {}
     }
     function syncFsIcon() {
+      const fsBtn = $fsBtn();
       if (!fsBtn) return;
       // Glyphe constant (⛶ = bien supporté) ; on signale l'état actif via
       // une classe + le title, pas par un autre emoji (risque de tofu mobile).
       fsBtn.classList.toggle('is-fs', !!isFs());
       fsBtn.title = isFs() ? 'Quitter le plein écran' : 'Plein écran';
     }
-    if (fsBtn) fsBtn.addEventListener('click', toggleFs);
     document.addEventListener('fullscreenchange', syncFsIcon);
     document.addEventListener('webkitfullscreenchange', syncFsIcon);
 
     // ── Menu hamburger ────────────────────────────────────────────────────
     function toggleMenu(show) {
-      if (!menu) return;
+      const menu = $menu(), btn = $btn();
+      if (!menu || !btn) return;
       if (show) { menu.classList.remove('hidden'); btn.setAttribute('aria-expanded', 'true'); }
       else      { menu.classList.add('hidden');    btn.setAttribute('aria-expanded', 'false'); }
     }
 
-    if (btn) {
-      btn.addEventListener('click', e => {
-        e.stopPropagation();
-        toggleMenu(btn.getAttribute('aria-expanded') !== 'true');
-      });
-    }
+    // Handlers GLOBAUX (document persiste à travers les ViewTransitions) →
+    // attachés une seule fois ; ils relisent les éléments courants à la volée.
     document.addEventListener('click', e => {
-      if (menu && !menu.contains(e.target) && !btn.contains(e.target)) toggleMenu(false);
+      const menu = $menu(), btn = $btn();
+      if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) toggleMenu(false);
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
+
+    // ── (Re)câblage des éléments de la navbar ─────────────────────────────
+    // Appelé au 1er chargement ET à chaque astro:page-load (la navbar est
+    // remplacée par les ViewTransitions). Guard `dataset.wired` → idempotent :
+    // ne double-bind jamais un nœud, recâble les nœuds neufs après un swap.
+    // C'est CE recâblage qui manquait → le menu mourait après une navigation.
+    function wireNavbar() {
+      const btn = $btn();
+      if (btn && !btn.dataset.wired) {
+        btn.dataset.wired = '1';
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          toggleMenu(btn.getAttribute('aria-expanded') !== 'true');
+        });
+      }
+      $modes().forEach(opt => {
+        if (opt.dataset.wired) return;
+        opt.dataset.wired = '1';
+        opt.addEventListener('click', () => { setMode(opt.dataset.mode); toggleMenu(false); });
+      });
+      const fsBtn = $fsBtn();
+      if (fsBtn && !fsBtn.dataset.wired) {
+        fsBtn.dataset.wired = '1';
+        fsBtn.addEventListener('click', toggleFs);
+      }
+      // Reflète l'état courant sur les (éventuels) nouveaux nœuds.
+      setMode(localStorage.getItem('maths974-display-mode') || 'screen');
+      syncFsIcon();
+    }
+    wireNavbar();
 
     // ── Pastille 🛒 (nb d'automaths dans le caddy) ────────────────────────
     // Lit `maths974-cart` (cf. caddy-store.js) au mount + à chaque event
     // `cart:change` (émis par saveCart). Pastille cachée si caddy vide.
-    const cartCountEl = document.getElementById('nav-cart-count');
     function syncCartCount() {
+      const cartCountEl = document.getElementById('nav-cart-count');
       if (!cartCountEl) return;
       let n = 0;
       const isActive = (c) => c && Array.isArray(c.variants) && c.variants.length > 0;
@@ -164,6 +190,7 @@
     // l'élève vient de /profil/. Sans ça, l'avatar de la navbar reste
     // figé tant qu'on n'a pas full-reload.
     document.addEventListener('astro:page-load', () => {
+      wireNavbar();
       syncCartCount();
       syncProfilBtn();
     });
